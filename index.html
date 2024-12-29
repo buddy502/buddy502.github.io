@@ -9,24 +9,24 @@
         <title>Music App</title>
 
         <!-- links for css and javascript files-->
-        <link rel="stylesheet" href="../stylefiles/headerStyles.css">
-        <link rel="stylesheet" href="../stylefiles/mediaLibrary.css">
-        <link rel="stylesheet" href="../stylefiles/contextMenuRightClick.css">
-        <link rel="stylesheet" href="../stylefiles/playerControls.css">
+        <link rel="stylesheet" href="./stylefiles/headerStyles.css">
+        <link rel="stylesheet" href="./stylefiles/mediaLibrary.css">
+        <link rel="stylesheet" href="./stylefiles/contextMenuRightClick.css">
+        <link rel="stylesheet" href="./stylefiles/playerControls.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/musicmetadata/2.0.0/musicmetadata.js"></script>
 
-        <script type="module" src="../Logic/FileExplorerSelection.js" defer></script>
-        <script type="module" src="../Logic/AddMusicFiles.js" defer></script>
-        <script type="module" src="../Logic/playSong.js" defer></script>
-        <script type="module" src="../Logic/skipandPlayButtons.js" defer></script>
-        <script type="module" src="../Logic/repeateAndRandButtons.js" defer></script>
+        <script type="module" src="./Logic/FileExplorerSelection.js" defer></script>
+        <script type="module" src="./Logic/AddMusicFiles.js" defer></script>
+        <script type="module" src="./Logic/playSong.js" defer></script>
+        <script type="module" src="./Logic/skipandPlayButtons.js" defer></script>
+        <script type="module" src="./Logic/repeateAndRandButtons.js" defer></script>
 
     </head>
 
     <body>
         <div class="backgroundTopHeader">
-            <img class="MusicAppIcon" src="../Icons/Music App Icon.png" alt="Header Icon">
+            <img class="MusicAppIcon" src="./Icons/Music App Icon.png" alt="Header Icon">
             Buddy's Music Player
         </div>
 
@@ -38,11 +38,11 @@
         <div id="contextMenu" class="context-menu" style="display:none">
             <ul id="contextMenuUl">
                 <li id="openFileExplorer">
-                    <img id="FileIconImage" src="../Icons/File Icon.png" alt="File Icon">
+                    <img id="FileIconImage" src="./Icons/File Icon.png" alt="File Icon">
                     Add File
                 </li>
                 <li id="openDirectoryExplorer">
-                    <img id="folderIconImage" src="../Icons/Folder Icon.png" alt="Folder Icon">
+                    <img id="folderIconImage" src="./Icons/Folder Icon.png" alt="Folder Icon">
                     Add Directory
                 </li>
             </ul>
@@ -54,7 +54,7 @@
         <div class="leftSideMenu">
             <div id="ComputerText">Computer Files</div>
             <button id="fileExplorerMyMusic" class="MyMusic">
-                <img src="../Icons/Quarter Note.png" alt="My Music Icon">
+                <img src="./Icons/Quarter Note.png" alt="My Music Icon">
                 My Music
             </button>
         </div>
@@ -68,7 +68,7 @@
         <div id="borderWithSongs" style="max-width: 70vw; min-width: 70vw; min-height: 700px;">
             <div id="metadataContainer"></div>
             <div id="hiddenMusicText">
-                <img src="../Icons/Download Button.png" alt="Songs Box Icon">
+                <img src="./Icons/Download Button.png" alt="Songs Box Icon">
                 <p>Add a directory for your songs.<br>
                 Right click this box or click My Music on the left.</p>
             </div>
