@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    display: block;
+    height: 100%;
+}
+
+.backgroundTopHeader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: black;
+    border: 2px solid black;
+    font-size: 20px;
+    color: white;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.MusicAppIcon {
+    display: inline-flex;
+    width: 60px;
+    height: 60px;
+    margin-right: 4px;
+}
+
+/* NOTE: ">" means it only uses div's inside the HeaderTopButtons
+ * "#" is and ID selector "." for classes and more than once use */
+
+/* header buttons are going to use the same format */
+.headerButtonStyles {
+    display: inline-flex;
+    flex-direction: row;
+    border: none;
+    font-size: 18px;
+    margin-right: 13px;
+    margin-left: 20px;
+    margin-top: 7px;
+    text-decoration: none;
+    color: black;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.headerButtonStyles:hover {
+    color: rgb(150, 150, 150);
+}
+
+.headerOptionButtons {
+    display: flex;
+    width: 100%;
+}

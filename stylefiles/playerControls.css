@@ -1,0 +1,161 @@
+button {
+    border: 2px solid transparent;
+    outline: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+}
+
+.audioControls {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+}
+
+button:hover {
+    border-color: rgb(150, 255, 255);
+}
+
+button:active {
+    background-color: rgb(200, 255, 255);
+}
+
+#playButton {
+    display: inline-block;
+    background-image: url('../Icons/Play Button.png');
+    margin-top: 5vh;
+    margin-left: 4vw;
+    bottom: 0;
+}
+
+#pauseButton {
+    display: none;
+    background-image: url('../Icons/pause button icon.png');
+    margin-top: 5vh;
+    margin-left: 4vw;
+    bottom: 0;
+}
+
+#prevButton {
+    background-image: url('../Icons/Skip Button.jpg');
+    margin-top: 5vh;
+    bottom: 0;
+    left: 0;
+}
+
+#nextButton {
+    background-image: url('../Icons/Skip Button.jpg');
+    margin-top: 5vh;
+    margin-left: 9vw;
+    transform: scaleX(-1);
+    bottom: 0;
+}
+
+#repeateSongButton {
+    background-image: url('../Icons/repeate song button.png');
+    margin-top: 5vh;
+    margin-left: 18vw;
+    bottom: 0;
+}
+
+.activeRepeateSongButton {
+    background-color: rgb(200, 255, 255);
+}
+
+#randomSongButton {
+    background-image: url('../Icons/random song button.png');
+    margin-top: 5vh;
+    margin-left: 22vw;
+    bottom: 0;
+}
+
+.activeRandomSongButton {
+    background-color: rgb(200, 255, 255);
+}
+
+#seekbar {
+    width: calc(90% - 20px);
+    height: 9px;
+    appearance: none;
+    cursor: context-menu;
+    margin-left: 20px;
+    border: 1px solid rgb(60, 60, 60);
+    border-radius: 5px;
+}
+
+#seekbarDuration {
+    margin-left: 10px;
+}
+
+#seekbar::-webkit-slider-thumb {
+    appearance: none;
+    opacity: 0;
+    width: 18px;
+    height: 18px;
+    background: rgb(60, 60, 60);
+    cursor: context-menu;
+    border-radius: 50%;
+    margin-right: 20px;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#seekbar.hovered::-webkit-slider-thumb {
+    appearance: none;
+    opacity: 1;
+    width: 18px;
+    height: 18px;
+    background: rgb(60, 60, 60);
+    cursor: context-menu;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+/* for the js to hide if there's no song */
+.no-thumb::-webkit-slider-thumb {
+    display: none;
+}
+
+#volumeControl {
+    display: block;
+    width: 60px;
+    cursor: context-menu;
+    border: 1px solid black;
+    appearance: none;
+    transform: rotate(-90deg);
+    right: 0;
+    position: absolute;
+    pointer-events: auto;
+}
+
+#volumeControl::-webkit-slider-thumb {
+    appearance: none;
+    width: 10px;
+    height: 15px;
+    background: rgb(60, 60, 60);
+    cursor: context-menu;
+    border-radius: 20%;
+}
+
+#volumePercentage {
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin-right: 11px;
+}

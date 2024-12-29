@@ -1,0 +1,96 @@
+<!DOCTYPE html> 
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="author" content="buddy">
+        <meta name="description" content="Music App With Desktop Files">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Music App</title>
+
+        <!-- links for css and javascript files-->
+        <link rel="stylesheet" href="../stylefiles/headerStyles.css">
+        <link rel="stylesheet" href="../stylefiles/mediaLibrary.css">
+        <link rel="stylesheet" href="../stylefiles/contextMenuRightClick.css">
+        <link rel="stylesheet" href="../stylefiles/playerControls.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/musicmetadata/2.0.0/musicmetadata.js"></script>
+
+        <script type="module" src="../Logic/FileExplorerSelection.js" defer></script>
+        <script type="module" src="../Logic/AddMusicFiles.js" defer></script>
+        <script type="module" src="../Logic/playSong.js" defer></script>
+        <script type="module" src="../Logic/skipandPlayButtons.js" defer></script>
+        <script type="module" src="../Logic/repeateAndRandButtons.js" defer></script>
+
+    </head>
+
+    <body>
+        <div class="backgroundTopHeader">
+            <img class="MusicAppIcon" src="../Icons/Music App Icon.png" alt="Header Icon">
+            Buddy's Music Player
+        </div>
+
+        <div class="headerOptionButtons">
+            <a href="MediaLibrary.html" class="headerButtonStyles">Media Library</a>
+            <a href="playlists.html" class="headerButtonStyles">Playlists</a>
+        </div>
+
+        <div id="contextMenu" class="context-menu" style="display:none">
+            <ul id="contextMenuUl">
+                <li id="openFileExplorer">
+                    <img id="FileIconImage" src="../Icons/File Icon.png" alt="File Icon">
+                    Add File
+                </li>
+                <li id="openDirectoryExplorer">
+                    <img id="folderIconImage" src="../Icons/Folder Icon.png" alt="Folder Icon">
+                    Add Directory
+                </li>
+            </ul>
+        </div>
+
+
+        <input type="file" id="fileInput" style="display: none;" webkitdirectory directory multiple/>
+
+        <div class="leftSideMenu">
+            <div id="ComputerText">Computer Files</div>
+            <button id="fileExplorerMyMusic" class="MyMusic">
+                <img src="../Icons/Quarter Note.png" alt="My Music Icon">
+                My Music
+            </button>
+        </div>
+
+        <!-- MUSIC FILES FOR TEXT BOX AND AUDIO -->
+
+        <input type="file" id="fileInputRightClick" style="display: none;"/>
+        <input type="file" id="directoryRightClick" style="display: none;" webkitdirectory directory multiple/>
+        <audio id="audioPlayer" style="display: none;"></audio>
+
+        <div id="borderWithSongs" style="max-width: 70vw; min-width: 70vw; min-height: 700px;">
+            <div id="metadataContainer"></div>
+            <div id="hiddenMusicText">
+                <img src="../Icons/Download Button.png" alt="Songs Box Icon">
+                <p>Add a directory for your songs.<br>
+                Right click this box or click My Music on the left.</p>
+            </div>
+        </div>
+
+        <div class="audioControls">
+            <!-- controls -->
+            <span id="seekbarDuration">--:--</span>
+            <input type="range" id="seekbar" value="0" step="0.01" min="0" max="100">
+            <span id="seekbarTotalDuration">--:--</span>
+            <input type="range" id="volumeControl" value="100" step="0.01" min="0" max="100">
+            <span id="volumePercentage">100%</span>
+
+            <!-- buttons -->
+            <button id="prevButton"></button>
+            <button id="playButton"><i id="playIcon"></i></button>
+            <button id="pauseButton"><i id="pauseIcon"></i></button>
+            <button id="nextButton"></button>
+
+            <button id="repeateSongButton"></button>
+            <button id="randomSongButton"></button>
+        </div>
+
+    </body>
+</html>
