@@ -81,6 +81,41 @@ function removeStringLength(str) {
     return str;
 }
 
+async function uploadSong(file) {
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append("songFile", file);
+    formData.append("songName", file.name); // Example: Use file name as the song name
+    formData.append("artistName", "Unknown Artist"); // Placeholder artist name
+    formData.append("duration", "0:00"); // Placeholder duration
+
+    try {
+        // Send the file and metadata to the server
+        const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to upload the song");
+        }
+
+        const metadata = await response.json();
+
+        // Update the UI with the received metadata
+        appendToSongList(
+            metadata.songName,
+            metadata.artistName,
+            metadata.duration,
+            metadata.filePath
+        );
+
+        console.log("Song uploaded successfully:", metadata);
+    } catch (error) {
+        console.error("Error uploading song:", error);
+    }
+}
+
 function getMusicMetadata(file) {
     window.musicmetadata(file, function (err, result) {
         if (err) throw err;
@@ -142,6 +177,8 @@ function getMusicMetadata(file) {
             metadataContainer.appendChild(songContainer);
         }
         appendToSongList(name, artist, duration, filePath);
+
+        uploadSong(filePath);
 
     });
 }
