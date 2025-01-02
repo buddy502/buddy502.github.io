@@ -19,7 +19,7 @@ import (
 type Song struct {
     ID       int    `json:"id"`
     Name     string `json:"name"`
-    FilePath string `json:"filePath"` // Store the file path, not the Blob
+    FilePath string `json:"filePath"`
 }
 
 type SongManager struct {
