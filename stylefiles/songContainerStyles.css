@@ -1,0 +1,29 @@
+/* In your CSS file (or inside a <style> tag) */
+
+/* Container for each song */
+.songContainer {
+    display: flex;
+    flex-wrap: wrap;
+    width: 120px;
+    justify-content: center;
+    aspect-ratio: 3/2;
+}
+
+/* Style for the image metadata */
+.imageMetadataStyles {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 80%;
+    height: 80px;
+    overflow: hidden;
+}
+
+/* Style for the text metadata */
+.textMetadataStyles {
+    font-size: 13px;
+    color: black;
+    margin-bottom: 10px;
+    text-align: center;
+}
+

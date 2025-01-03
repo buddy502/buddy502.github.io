@@ -1,3 +1,5 @@
+import { storeFile } from './storeSongFiles.js'
+
 function updatePlayPauseButtons(isPlaying) {
     const playButton = document.getElementById("playButton");
     const pauseButton = document.getElementById("pauseButton");
@@ -61,6 +63,7 @@ if (metadataContainer) {
     metadataContainer.addEventListener("dblclick", (event) => {
         const songContainer = event.target.closest(".songContainer");
         const audioFile = songContainer.dataset.file;
+
         if (songContainer && audioFile) {
                 audioPlayer.src = audioFile;
                 seekbar.value = 0;
