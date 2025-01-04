@@ -34,7 +34,7 @@ function loadSongData() {
 
                 getMusicMetadata(file)
                     .then(metadata => {
-                        console.log(`Successfully loaded metadata for ${metadata.name}`);
+                        //console.log(`Successfully loaded metadata for ${metadata.name}`);
                     })
                     .catch(err => {
                         console.error(`Failed to get metadata for ${song.name}:`, err);

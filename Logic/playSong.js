@@ -130,53 +130,71 @@ function formatTime(seconds) {
 }
 
 function updateSeekBarSlider(slider) {
+    if (!slider) {
+        console.error('Slider element is undefined or null.');
+        return;
+    }
+
+    if (!slider.value || !slider.max) {
+        console.error('Slider is missing value or max attributes.');
+        return;
+    }
+
     const value = slider.value;
     const max = slider.max;
     const percentage = Math.ceil((value / max) * 100);
 
-    slider.style.background = `linear-gradient(to right, rgb(184, 252, 255) ${percentage}%, #ccc ${percentage}%)`;
+    slider.style.background = `linear-gradient(to right, rgb(120, 252, 255) ${percentage}%, #ccc ${percentage}%)`;
 }
 
-// use event listener for activating volume keydown
 let isSeekBarActive = false;
-
-document.addEventListener('keydown', (event) => {
-    // Ensure the seekbar is active
-    if (!isSeekBarActive) return;
-
-    const newSeekbarValue = parseInt(seekbar.value);
-    const currentTime = audioPlayer.currentTime;
-    const duration = audioPlayer.duration;
-
-    if (event.key === "ArrowRight") {
-        if (duration - currentTime <= 10 || currentTime === duration) {
-            seekbar.value = duration;
-        } else {
-            let updatedValue = Math.ceil(newSeekbarValue + 10);
-            updatedValue = Math.min(updatedValue, 100);
-            seekbar.value = updatedValue;
-        }
-
-        updateSeekBarSlider(seekbar.value);
-
-    } else if (event.key === "ArrowLeft") {
-        if (currentTime <= 10 || currentTime === 0) {
-            seekbar.value = 0;
-        } else {
-            let updatedValue = Math.floor(newSeekbarValue - 10);
-            updatedValue = Math.max(updatedValue, 0);
-            seekbar.value = updatedValue;
-        }
-
-        updateSeekBarSlider(seekbar.value);
-    }
-});
 
 seekbar.addEventListener('focus', () => {
     isSeekBarActive = true;
 });
 
+document.addEventListener('click', (event) => {
+    if (!seekbar.contains(event.target)) {
+        isSeekBarActive = false;
+        seekbar.blur();
+    }
+});
 
+document.addEventListener('keydown', (event) => {
+    if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        event.preventDefault();
+        return;
+    }
+
+    if (!isSeekBarActive) return;
+
+    const currentTime = Math.round(audioPlayer.currentTime);
+    const duration = audioPlayer.duration;
+
+    if (event.key === "ArrowRight") {
+        if (duration - currentTime <= 10) {
+            seekbar.value = 100;
+            audioPlayer.currentTime = duration;
+        } else {
+            const updatedTime = Math.min(currentTime + 10, duration);
+            seekbar.value = Math.ceil((updatedTime / duration) * 100);
+            audioPlayer.currentTime = updatedTime;
+        }
+
+        updateSeekBarSlider(seekbar);
+    } else if (event.key === "ArrowLeft") {
+        if (currentTime <= 10) {
+            seekbar.value = 0;
+            audioPlayer.currentTime = 0;
+        } else {
+            const updatedTime = currentTime - 10;
+            seekbar.value = Math.round((updatedTime / duration) * 100);
+            audioPlayer.currentTime = updatedTime;
+        }
+
+        updateSeekBarSlider(seekbar);
+    }
+});
 
 // event listener for dragging or clicking current seekTime
 seekbar.addEventListener('input', () => {
@@ -209,7 +227,7 @@ const volumeControl = document.getElementById('volumeControl');
 function updateVolumeSliderBackground(slider) {
     const value = slider.value;
     const max = slider.max;
-    // round up for .9 repeating fix
+
     const percentage = Math.ceil((value / max) * 100);
 
     slider.style.background = `linear-gradient(to right, rgb(125, 255, 105) ${percentage}%, #ccc ${percentage}%)`;
@@ -243,29 +261,37 @@ updateVolumeSliderBackground(volumeControl);
 
 // event listener for volume control
 document.addEventListener('keydown', (event) => {
+    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        return;
+    }
     // only do the rest if slider is active
     if (!isVolumeActive) return;
 
-    let newVolume = parseInt(volumeControl.value);
+    let newVolumeDown = Math.floor(volumeControl.value);
+    let newVolumeUp = Math.ceil(volumeControl.value);
 
     if (event.key === "ArrowUp") {
-        // Round up to the next multiple of 5
-        if (newVolume % 5 !== 0) {
-            newVolume = Math.ceil(newVolume / 5) * 5;
+        if (newVolumeUp % 5 !== 0) {
+            newVolumeUp = Math.ceil(newVolumeUp / 5) * 5;
         }else {
-            newVolume = Math.min(newVolume + 5, 100);
+            newVolumeUp = Math.min(newVolumeUp + 5, 100);
         }
 
-        volumeControl.value = newVolume;
+        updateVolumeSliderBackground(volumeControl);
+
+        volumeControl.value = newVolumeUp;
 
     } else if (event.key === "ArrowDown") {
-        if (newVolume % 5 !== 0) {
-            newVolume = Math.floor(newVolume / 5) * 5;
+        if (newVolumeDown % 5 !== 0) {
+            newVolumeDown = Math.floor(newVolumeDown / 5) * 5;
         }else {
-            newVolume = Math.max(newVolume - 5, 0);
+            newVolumeDown = Math.max(newVolumeDown - 5, 0);
         }
 
-        volumeControl.value = newVolume;
+        updateVolumeSliderBackground(volumeControl);
+
+        volumeControl.value = newVolumeDown;
     }
 });
 

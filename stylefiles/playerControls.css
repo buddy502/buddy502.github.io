@@ -116,6 +116,12 @@ button:active {
     transition: opacity 0.3s ease-in-out;
 }
 
+#seekbar.disabled::-webkit-slider-thumb {
+    pointer-events: none;
+    background: gray;
+    cursor: not-allowed;
+}
+
 #seekbar.hovered::-webkit-slider-thumb {
     appearance: none;
     opacity: 1;

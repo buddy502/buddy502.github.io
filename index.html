@@ -8,6 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Music App</title>
 
+
         <!-- links for css and javascript files-->
         <link rel="stylesheet" href="./stylefiles/headerStyles.css">
         <link rel="stylesheet" href="./stylefiles/mediaLibrary.css">
@@ -51,7 +52,6 @@
             </ul>
         </div>
 
-
         <input type="file" id="fileInput" style="display: none;" webkitdirectory directory multiple/>
 
         <div class="leftSideMenu">
@@ -69,7 +69,16 @@
         <audio id="audioPlayer" style="display: none;"></audio>
 
         <div id="borderWithSongs" style="max-width: 70vw; min-width: 70vw; min-height: 700px;">
-            <div id="metadataContainer"></div>
+            <div id="metadataContainer">
+                <div id="songContext">
+                    <ul id="songContextUl">
+                        <li id="removeSongInfo">
+                            <img id="trashBinIcon" src="./Icons/Red Trash Bin.png" alt="Trash Bin Icon">
+                            Delete Song
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div id="hiddenMusicText">
                 <img src="./Icons/Download Button.png" alt="Songs Box Icon">
                 <p>Add a directory for your songs.<br>

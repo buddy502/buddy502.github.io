@@ -49,7 +49,7 @@ export function getMusicMetadata(file) {
                 const base64 = picture.data.toString('base64');
                 imageSrc = `data:${picture.format};base64,${base64}`;
             } else {
-                imageSrc = "http://127.0.0.1:8080/static/Icons/Music%20App%20Icon.png"
+                imageSrc = "http://127.0.0.1:8080/Icons/Music%20App%20Icon.png"
             }
 
             // Extract metadata: title, artist, and duration
