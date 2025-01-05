@@ -1,13 +1,14 @@
+import { getMusicMetadata } from './AddMusicFiles.js'
+import { deleteSongData } from './storeSongFiles.js'
+
 const contextMenu = document.getElementById("contextMenu");
 const songContext = document.getElementById('songContext');
 
 function hidesongContainerMenu(event) {
-    if (songContext && !songContext.contains(event.target)) {
-        songContext.style.display = "none";
-    }
+    songContext.style.display = "none";
 }
 
-const songContainer = document.querySelectorAll('.songContainer');
+const removeSongInfo = document.getElementById('removeSongInfo');
 
 function showContextMenu(event) {
     event.preventDefault();
@@ -22,57 +23,49 @@ function showContextMenu(event) {
         songContext.style.top = `${y}px`;
         songContext.style.display = "block";
     }
-
-    removeSongInfo.onclick = function () {
-        event.remove();
-        songContext.style.display = 'none';
-    };
 }
 
-// Event listeners
+const songContainer = document.querySelector('.songContainer');
+
 document.addEventListener("contextmenu", (event) => {
+    const metadataContainer = document.getElementById('metadataContainer');
+    if (!metadataContainer || !metadataContainer.contains(event.target)) {
+        return;
+    }
+
     const song = event.target.closest('.songContainer');
 
     if (song) {
         showContextMenu(event);
+
+        const textMetadataStyles = song.querySelector('.textMetadataStyles');
+
+        const nameWithExt = textMetadataStyles.querySelector('.hiddenNameText').innerText;
+        const artist = textMetadataStyles.querySelector('.hiddenArtistText').innerText;
+
+        const name = nameWithExt
+            .replace(/\//g, " ")
+            .replace(/\|/g, " ")
+            .replace(/\:/g, "")
+            .replace(/\【/g, "[")
+            .replace(/\】/g, "]");
+
+        removeSongInfo.addEventListener("click", () => {
+            song.remove();
+
+            deleteSongData(name, artist);
+        });
     } else {
-        hidesongContainerMenu(event);
+        hidesongContainerMenu(event)
     }
 });
 
 document.addEventListener("click", hidesongContainerMenu);
 document.addEventListener("wheel", hidesongContainerMenu);
 
-const removeSongInfo = document.getElementById('removeSongInfo');
 
+const createContextMenu = document.querySelectorAll('.songContainer');
 
-songContainer.forEach(songContainer => {
+createContextMenu.forEach(songContainer => {
     songContainer.addEventListener('contextmenu', showContextMenu(songContainer));
 });
-
-removeSongInfo.addEventListener("click", (event) => {
-    // Find the metadata container related to the clicked element
-    const parentContainer = event.target.closest('#metadataContainer');
-
-    // Get all the songContainer elements within the parentContainer
-    const songContainer = parentContainer.querySelectorAll('.songContainer');
-
-    let closestSongContainer = null;
-
-    // Iterate through the songContainer elements
-    songContainer.forEach(songContainer => {
-        if (songContainer.contains(event.target)) {
-            closestSongContainer = songContainer;
-        }
-    });
-
-    if (closestSongContainer) {
-        console.log("Found closest songContainer:", closestSongContainer);
-
-        // Remove the songContainer or perform any action
-        closestSongContainer.remove(); // Remove the container from the DOM
-    } else {
-        console.log("No songContainer found.");
-    }
-});
-

@@ -2,34 +2,46 @@
 // append song metadata as they're added
 export let songsList = [];
 
+const hiddenMusicText = document.getElementById('hiddenMusicText');
+const metadataContainer = document.getElementById('metadataContainer');
+
+function updateUI() {
+    if (songsList.length > 0) {
+        hiddenMusicText.style.display = "none";
+        metadataContainer.style.height = "670px";
+    } else {
+        hiddenMusicText.style.display = "flex";
+        metadataContainer.style.height = "0px";
+    }
+}
+
+updateUI();
+
+
 function appendToSongList(name, artist) {
     const songName = `${name}`;
     const artistName = `${artist}`;
 
     songsList.push({ songName, artistName});
 
-    if ( songsList.length > 0) {
-        document.getElementById("hiddenMusicText").style.display = "none"
-        document.getElementById("metadataContainer").style.width = "72vw";
-        document.getElementById("metadataContainer").style.height = "690px";
-    }
+    updateUI();
 }
 
 function checkTextWrap(containerId, textContent) {
     const container = document.getElementById(containerId);
     if (container) {
-        const initialHeight = container.offsetHeight;
+        const initialWidth = container.offsetWidth;
         container.innerHTML = textContent;
 
-        const newHeight = container.offsetHeight;
-        return newHeight > initialHeight;
+        const newWidth = container.offsetWidth;
+        return newWidth > initialWidth;
     }
     return false;
 }
 
 function removeStringLength(str) {
     if (str.length > 20 || checkTextWrap("textMetadata", str)) {
-        str = str.slice(0, 20) + "...";
+        str = str.slice(0, 17) + "...";
     }
     return str;
 }
@@ -58,6 +70,10 @@ export function getMusicMetadata(file) {
             const duration = result.duration || "";
             const filePath = result.name || "";
 
+            // hidden text to get the full name and artist
+            const hiddenNameText = result.title || ""
+            const hiddenArtistText = result.artist[0] || ""
+
             // Create a new container for this song
             const songContainer = document.createElement('div');
             songContainer.classList.add('songContainer');
@@ -65,7 +81,9 @@ export function getMusicMetadata(file) {
             songContainer.style.display = "flex";
             songContainer.style.flexWrap = "wrap";
             songContainer.style.width = "120px";
+            songContainer.style.height = "150px";
             songContainer.style.justifyContent = "center";
+            songContainer.style.alignContent = "flex-start";
             songContainer.style.aspectRatio = "3/2";
 
             // Create and style the image metadata
@@ -84,25 +102,44 @@ export function getMusicMetadata(file) {
             // Create and style the text metadata
             const textDiv = document.createElement('div');
             textDiv.classList.add('textMetadataStyles');
-            textDiv.innerHTML = `${name}<br>${artist}`;
-            textDiv.style.fontSize = "13px";
+            textDiv.style.fontSize = "12px";
             textDiv.style.color = "black";
             textDiv.style.marginBottom = "10px";
             textDiv.style.textAlign = "center";
 
+            // hidden text for full name and artist
+            textDiv.innerHTML = `
+                <p class='name'>${name}</p>
+                <p class='artist'>${artist}</p>
+
+                <p class='hiddenNameText'>${hiddenNameText}</p>
+                <p class='hiddenArtistText'>${hiddenArtistText}</p>
+            `;
+            
+
             // Append the image and text metadata to the song container
             songContainer.appendChild(imageDiv);
             songContainer.appendChild(textDiv);
+
+            const hiddenName = textDiv.querySelector('.hiddenNameText');
+            const hiddenArtist = textDiv.querySelector('.hiddenArtistText');
+
+            const innerNameText = hiddenName.innerText;
+            const innerArtistText = hiddenArtist.innerText;
+
 
             const metadataContainer = document.getElementById('metadataContainer');
             if (metadataContainer) {
                 metadataContainer.appendChild(songContainer);
             }
 
-            appendToSongList(name, artist, duration, filePath);
+            appendToSongList(innerNameText, innerArtistText, duration, filePath);
+
+            hiddenName.style.display = "none";
+            hiddenArtist.style.display = "none";
 
             // Resolve the promise with the metadata
-            resolve({ name, artist, duration, filePath, imageSrc });
+            resolve({ innerNameText, innerArtistText, duration, filePath, imageSrc });
         });
     });
 }

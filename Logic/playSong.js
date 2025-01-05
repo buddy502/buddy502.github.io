@@ -1,5 +1,3 @@
-import { storeFile } from './storeSongFiles.js'
-
 function updatePlayPauseButtons(isPlaying) {
     const playButton = document.getElementById("playButton");
     const pauseButton = document.getElementById("pauseButton");

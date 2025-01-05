@@ -19,6 +19,8 @@
 
 #metadataContainer {
     display: flex;
+    width: 72vw;
+    height: 670px;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;

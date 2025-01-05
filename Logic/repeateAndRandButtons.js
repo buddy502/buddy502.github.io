@@ -54,13 +54,12 @@ audioPlayer.addEventListener('play', () => {
 let repeateActiveButton = false;
 
 repeateSongButton.addEventListener('click', () => {
-    randomButtonActive = !randomButtonActive;
+    repeateActiveButton = !repeateActiveButton;
     repeateSongButton.classList.toggle("activeRepeateSongButton");
 
     const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
     seekbar.value = progress;
 
-    // repeate song if toggled on else off
      if (repeateActiveButton) {
         audioPlayer.loop = true;
     } else {
@@ -68,7 +67,6 @@ repeateSongButton.addEventListener('click', () => {
     }
 })
 
-// always keep track of shuffled songs in array
 export let shuffledSongs = [];
 let currentSongIndex = -1;
 
@@ -76,26 +74,22 @@ export function randomizeSongs() {
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
     if (songContainers.length === 0) return;
 
-    // Shuffle the song containers in memory using the Fisher-Yates algorithm
     for (let i = songContainers.length - 1; i > 0; i--) {
         const rand = Math.floor(Math.random() * (i + 1));
         [songContainers[i], songContainers[rand]] = [songContainers[rand], songContainers[i]];
     }
 
-    // Store the shuffled array for later use
     shuffledSongs = songContainers;
-    currentSongIndex = 0; // Start from the first song in the shuffled list
+    currentSongIndex = 0;
 }
 
 
 let randomButtonActive = false;
 
 randomSongButton.addEventListener('click', () => {
-    // Toggle the random button active state
     randomButtonActive = !randomButtonActive;
     randomSongButton.classList.toggle("activeRandomSongButton");
 
-    // If the random button is not active, return early
     if (!randomButtonActive) {
         shuffledSongs = [];
         currentSongIndex = -1;
