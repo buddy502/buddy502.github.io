@@ -8,48 +8,6 @@ const audioPlayer = document.getElementById('audioPlayer');
 
 const metadataContainer = document.getElementById('metadataContainer');
 
-let previousHighlightedContainer = null;
-
-function highlightCurrentSong(songContainer) {
-    // Remove the highlighted class from the previously highlighted container
-    if (previousHighlightedContainer) {
-        previousHighlightedContainer.classList.remove('highlighted');
-        const textElement = previousHighlightedContainer.querySelector('.textMetadataStyles');
-        if (textElement) {
-            textElement.classList.remove('highlightedText');
-        }
-    }
-
-    // Add the highlighted class to the current song container and text element
-    if (songContainer) {
-        songContainer.classList.add('highlighted');
-        const textElement = songContainer.querySelector('.textMetadataStyles');
-        if (textElement) {
-            textElement.classList.add('highlightedText');
-        }
-    }
-
-    // Update the reference to the currently highlighted container
-    previousHighlightedContainer = songContainer;
-}
-
-// Get the audio player and song containers
-
-let highlightSongList = []
-
-audioPlayer.addEventListener('play', () => {
-    const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
-    const currentSrc = audioPlayer.src;
-
-    highlightSongList = songContainers
-
-    const currentSong = highlightSongList.find(item => item.dataset.file === currentSrc);
-
-    if (highlightSongList.length > 0) {
-        highlightCurrentSong(currentSong);
-    }
-});
-
 // set event listener for active event
 let repeateActiveButton = false;
 
@@ -67,56 +25,168 @@ repeateSongButton.addEventListener('click', () => {
     }
 })
 
-export let shuffledSongs = [];
-let currentSongIndex = -1;
+// linked list for random songs
+class Node {
+    constructor(val) {
+        this.data = val;
+        this.next = null;
+        this.prev = null;
+    }
+}
+ 
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
 
-export function randomizeSongs() {
+    getNextNode() {
+        if (!this.tail || !this.tail.next) {
+            return null;
+        }
+
+        this.tail = this.tail.next;
+        return this.tail;
+    }
+
+    deleteLastNode() {
+        if (!this.tail) return null;
+
+        let temp = this.tail;
+
+        if (this.head === this.tail) {
+            this.head = null;
+            this.tail = null;
+        } else {
+            this.tail = this.tail.prev;
+            this.tail.next = null;
+        }
+
+        return temp;
+    }
+
+    deleteLinkedList() {
+        let currentNode = this.head;
+
+        while (currentNode !== null) {
+            let nextNode = currentNode.next;
+            currentNode.next = null;
+            currentNode.prev = null;
+            currentNode = nextNode;
+        }
+
+        this.head = null;
+        this.tail = null;
+    } 
+
+    isEmpty() {
+        if (this.head == null) return true;
+        return false;
+    }
+ 
+    addItem(val) {
+        let temp = new Node(val);
+ 
+        if (this.head == null) {
+            this.head = temp;
+            this.tail = temp;
+        }
+        else {
+            this.tail.next = temp;
+            temp.prev = this.tail
+            this.tail = this.tail.next;
+        }
+    }
+ 
+    display() {
+        if (!this.isEmpty()) {
+            let curr = this.head;
+            while (curr !== null) {
+                console.log(curr.data);
+                curr = curr.next;
+            }
+        }
+    }
+}
+
+export const dll = new DoublyLinkedList();
+let currentSongRandom = dll.tail;
+
+export function appendRandomSongToDll() {
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
     if (songContainers.length === 0) return;
 
-    for (let i = songContainers.length - 1; i > 0; i--) {
-        const rand = Math.floor(Math.random() * (i + 1));
-        [songContainers[i], songContainers[rand]] = [songContainers[rand], songContainers[i]];
+    const availableSongs = songContainers.filter((_, index) => index !== currentSongRandom);
+    if (availableSongs.length === 0) return;
+
+    const rand = Math.floor(Math.random() * availableSongs.length);
+    const randomSong = availableSongs[rand];
+
+    if (dll) {
+        dll.addItem(randomSong);
+        currentSongRandom = songContainers.indexOf(randomSong);
+
+        audioPlayer.play().catch((error) => {
+            console.error("Error playing random song:", error);
+        });
     }
 
-    shuffledSongs = songContainers;
-    currentSongIndex = 0;
+    return dll;
 }
 
-
-let randomButtonActive = false;
+export let randomButtonActive = false;
 
 randomSongButton.addEventListener('click', () => {
     randomButtonActive = !randomButtonActive;
-    randomSongButton.classList.toggle("activeRandomSongButton");
+    randomSongButton.classList.toggle("activeRandomSongButton"); // css toggle
 
+    // if the random button isn't active
+    // delete dll and reset current song
     if (!randomButtonActive) {
-        shuffledSongs = [];
-        currentSongIndex = -1;
+        dll.deleteLinkedList();
+        currentSongRandom = dll.head;
         return;
     }
+    // make sure audio player stays paused
+    if (audioPlayer.paused) return;
 
-    randomizeSongs();
+    appendRandomSongToDll();
+
 
     playButton.style.display = "none";
     pauseButton.style.display = "inline-block";
-    // Handle the end of the current song and start a new random song
+});
 
-    audioPlayer.addEventListener('ended', () => {
-        if (shuffledSongs.length === 0) return;
+audioPlayer.addEventListener('ended', () => {
+    if (!randomButtonActive) {
+        return;
+    }
 
-        const audioUrl = shuffledSongs[currentSongIndex].dataset.files;
-        
-        if (audioUrl) {
-            const tempAudio = new Audio();
-            tempAudio.addEventListener('loadeddata', () => {
-                // Update the main audio source to the new URL after it's loaded
-                audioPlayer.src = audioUrl;
-                audioPlayer.load();
-                audioPlayer.play();
+    // Ensure we are appending a song to the DLL before proceeding
+    appendRandomSongToDll();
+
+    // Check if the DLL has a valid tail (last appended song)
+    const nextSong = dll.tail ? dll.tail.data : null;
+    if (!nextSong) {
+        console.error("No song available to play.");
+        return;
+    }
+
+    const audioUrl = nextSong.dataset.file;
+
+    if (audioUrl) {
+        const tempAudio = new Audio();
+        tempAudio.addEventListener('loadeddata', () => {
+            audioPlayer.src = audioUrl;
+            audioPlayer.load();
+            audioPlayer.play().catch((error) => {
+                console.error("Error playing next song:", error);
             });
-            // Start loading audio in the background to preload
-            tempAudio.src = audioUrl;
-        }
-    });
+        });
+
+        // Start preloading the song
+        tempAudio.src = audioUrl;
+    } else {
+        console.error("Invalid audio URL for the next song.");
+    }
 });

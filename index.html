@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="./stylefiles/mediaLibrary.css">
         <link rel="stylesheet" href="./stylefiles/contextMenuRightClick.css">
         <link rel="stylesheet" href="./stylefiles/playerControls.css">
+        <link rel="stylesheet" href="./stylefiles/searchBarStyles.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/musicmetadata/2.0.0/musicmetadata.js"></script>
 
@@ -25,6 +26,8 @@
         <script type="module" src="./Logic/deleteSong.js" defer></script>
         <script type="module" src="./Logic/storeSongFiles.js" defer></script>
         <script type="module" src="./Logic/contextMenuFileInput.js" defer></script>
+        <script type="module" src="./Logic/pausePlayButtons.js" defer></script>
+        <script type="module" src="./Logic/playerControls.js" defer></script>
 
     </head>
 
@@ -102,6 +105,12 @@
 
             <button id="repeateSongButton"></button>
             <button id="randomSongButton"></button>
+        </div>
+
+        <div id="searchBar">
+                <input type="search" placeholder="Search"
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='Search'">
         </div>
 
     </body>

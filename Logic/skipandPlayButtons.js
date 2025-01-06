@@ -1,4 +1,5 @@
-import { randomizeSongs, shuffledSongs} from './repeateAndRandButtons.js'
+import { appendRandomSongToDll, randomButtonActive, dll } from './repeateAndRandButtons.js'
+import { currentSong } from './playSong.js'
 
 const skipButton = document.getElementById('nextButton');
 const prevButton = document.getElementById('prevButton');
@@ -11,22 +12,41 @@ const randomSongButton = document.getElementById('randomSongButton');
 const playButton = document.getElementById('playButton');
 const pauseButton = document.getElementById('pauseButton');
 
-let currentSongIndex = 0;
+let currentNode = null;
 
-// add logic to skip into part of the random stack
-audioPlayer.addEventListener('ended', () => {
-    // used to turn all of the things using the songContainer class
-    // needed because every song is appended with songContainer class
+function skipToNextSong() {
+     if (randomButtonActive) {
+        if (audioPlayer.paused) return; // Don't do anything if the player is paused
+
+        appendRandomSongToDll();
+
+        const nextSong = dll.tail.data;
+        if (nextSong) {
+            const audioUrl = nextSong.dataset.file;
+            audioPlayer.src = audioUrl;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch((error) => {
+                console.error("Error playing random song:", error);
+            });
+        }
+
+        playButton.style.display = "none";
+        pauseButton.style.display = "inline-block";
+        return;
+    }
+
+    if (!audioPlayer.src) return;
+    // logic for skipping to next song with random button not pressed
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
 
-    currentSongIndex = (currentSongIndex + 1) % songContainers.length;
-    if (songContainers.length > 0) {
+    const currentSrc = audioPlayer.src;
 
-        const nextSongContainer = songContainers[currentSongIndex];
-        if (!nextSongContainer) return;
+    currentNode = (currentSong + 1) % songContainers.length;
 
-        const audioFile = nextSongContainer.dataset.file;
+    const nextSongContainer = songContainers[currentNode];
+    const audioFile = nextSongContainer.dataset.file;
 
+    if (nextSongContainer) {
         audioPlayer.src = audioFile;
         audioPlayer.currentTime = 0;
 
@@ -36,92 +56,59 @@ audioPlayer.addEventListener('ended', () => {
         audioPlayer.play().catch((error) => {
             console.error("Error playing audio:", error);
         });
-    }
-})
 
-function skipToNextSong() {
-    // Check if the random button is active by checking the class
-    const isRandomButtonActive = randomSongButton.classList.contains("activeRandomSongButton");
-
-    // If the random button is active and the song list has not been shuffled, randomize it
-    if (isRandomButtonActive && shuffledSongs.length === 0) {
-        randomizeSongs();  // Shuffle the songs when the button is pressed
-    }
-
-    // Use shuffledSongs if random button is active, otherwise use the original order
-    const currentSongList = isRandomButtonActive ? shuffledSongs : [...metadataContainer.querySelectorAll('.songContainer')];
-
-    // Find the index of the currently playing song in the appropriate container list
-    currentSongIndex = currentSongList.findIndex((songContainer) => {
-        const audioFile = songContainer.dataset.file;
-        return audioPlayer.src.includes(audioFile) && audioPlayer.currentTime > 0 && !audioPlayer.paused;
-    });
-
-    // If no song is currently playing, start with the first song in the list
-    if (currentSongIndex === -1) {
-        currentSongIndex = 0;
-    }
-
-    // Calculate the next song index (loop around if at the end)
-    currentSongIndex = (currentSongIndex + 1) % currentSongList.length;
-
-    // Ensure that the currentSongIndex is within bounds
-    if (currentSongIndex >= 0 && currentSongIndex < currentSongList.length) {
-        const nextSongContainer = currentSongList[currentSongIndex];
-        const audioFile = nextSongContainer.dataset.file;
-
-        if (nextSongContainer && audioPlayer) {
-            // Update audio player to the next song
-            audioPlayer.src = audioFile;
-            audioPlayer.currentTime = 0;
-            playButton.style.display = "none";
-            pauseButton.style.display = "inline-block";
-
-            audioPlayer.play().catch((error) => {
-                console.error("Error playing audio:", error);
-            });
-        }
     } else {
-        console.error("Invalid currentSongIndex:", currentSongIndex);
+        console.error("Invalid next song container.");
     }
 }
 
 function goToPreviousSong() {
-    const isRandomButtonActive = randomSongButton.classList.contains("activeRandomSongButton");
+if (randomButtonActive) {
+        if (audioPlayer.paused) return;
 
-    if (isRandomButtonActive && shuffledSongs.length === 0) {
-        randomizeSongs();
-    }
+        const deletedNode = dll.deleteLastNode();
+        
+        if (!deletedNode) return;
 
-    const currentSongList = isRandomButtonActive ? shuffledSongs : [...metadataContainer.querySelectorAll('.songContainer')];
+        const nextSong = deletedNode.data;
+        if (nextSong) {
+            const audioUrl = nextSong.dataset.file;
 
-    currentSongIndex = currentSongList.findIndex((songContainer) => {
-        const audioFile = songContainer.dataset.file;
-        return audioPlayer.src.includes(audioFile) && audioPlayer.currentTime > 0 && !audioPlayer.paused;
-    });
+            if (audioPlayer.paused) {
+                audioPlayer.src = audioUrl;
+                audioPlayer.currentTime = 0;
+                audioPlayer.play().catch((error) => {
+                    console.error("Error playing random song:", error);
+                });
 
-    if (currentSongIndex === -1) {
-        currentSongIndex = 0;
-    }
-
-    currentSongIndex = (currentSongIndex - 1) % currentSongList.length;
-
-    if (currentSongIndex >= 0 && currentSongIndex < currentSongList.length) {
-        const nextSongContainer = currentSongList[currentSongIndex];
-        const audioFile = nextSongContainer.dataset.file;
-
-        if (nextSongContainer && audioPlayer) {
-            audioPlayer.src = audioFile;
-            audioPlayer.currentTime = 0;
-            playButton.style.display = "none";
-            pauseButton.style.display = "inline-block";
-
-            audioPlayer.play().catch((error) => {
-                console.error("Error playing audio:", error);
-            });
+                playButton.style.display = "none";
+                pauseButton.style.display = "inline-block";
+            }
         }
+        return;
+    }
+
+    const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
+
+    if (!audioPlayer.src) return;
+
+    currentNode = (currentSong - 1 + songContainers.length) % songContainers.length;
+
+    const prevSongContainer = songContainers[currentNode];
+    const audioFile = prevSongContainer.dataset.file;
+
+    if (prevSongContainer && audioPlayer) {
+        audioPlayer.src = audioFile;
+        audioPlayer.currentTime = 0;
+        playButton.style.display = "none";
+        pauseButton.style.display = "inline-block";
+
+        audioPlayer.play().catch((error) => {
+            console.error("Error playing audio:", error);
+        });
+
     } else {
-        console.error("Invalid currentSongIndex:", currentSongIndex);
+        console.error("Invalid previous song container.");
     }
 }
 

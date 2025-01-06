@@ -11,3 +11,5 @@ and it also doesn't go out of bounds
 !Fix metadata so it doesn't use createObjectURL because it creates url
 
 !If folder is added create a new container holding all of the songs once clicked
+
+!Create search bar. Use indexedDB for the stored information

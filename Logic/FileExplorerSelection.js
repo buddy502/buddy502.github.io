@@ -1,3 +1,19 @@
+function changeHandler({ target }) {
+    if (!target.files.length) return;
+
+    const urlObj = URL.createObjectURL(target.files[0]);
+
+    const audioPlayer = document.getElementById("audioPlayer");
+
+    audioPlayer.src = urlObj;
+
+    audioPlayer.controls = true;
+}
+
+document.getElementById("fileInputRightClick").addEventListener("change", changeHandler);
+document.getElementById("directoryRightClick").addEventListener("change", changeHandler);
+document.getElementById("fileExplorerMyMusic").addEventListener("change", changeHandler);
+
 //
 // MY MUSIC DIRECTORY / FILE SELECTION
 //
