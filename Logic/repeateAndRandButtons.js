@@ -108,12 +108,13 @@ export function appendRandomSongToDll() {
 
     dll.addItem(randomSong);
 
+    currentSongRandom = dll.tail;
+
     const nextSong = dll.tail.data;
     if (nextSong) {
         const audioUrl = nextSong.dataset.file;
     }
 
-    console.log(dll);
     return dll;
 }
 

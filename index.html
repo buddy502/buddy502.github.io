@@ -21,13 +21,14 @@
         <script type="module" src="./Logic/FileExplorerSelection.js" defer></script>
         <script type="module" src="./Logic/AddMusicFiles.js" defer></script>
         <script type="module" src="./Logic/playSong.js" defer></script>
-        <script type="module" src="./Logic/skipandPlayButtons.js" defer></script>
+        <script type="module" src="./Logic/skipandPrevButtons.js" defer></script>
         <script type="module" src="./Logic/repeateAndRandButtons.js" defer></script>
         <script type="module" src="./Logic/deleteSong.js" defer></script>
         <script type="module" src="./Logic/storeSongFiles.js" defer></script>
         <script type="module" src="./Logic/contextMenuFileInput.js" defer></script>
         <script type="module" src="./Logic/pausePlayButtons.js" defer></script>
         <script type="module" src="./Logic/playerControls.js" defer></script>
+        <script type="module" src="./Logic/songSearch.js" defer></script>
 
     </head>
 
@@ -108,9 +109,10 @@
         </div>
 
         <div id="searchBar">
-                <input type="search" placeholder="Search"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='Search'">
+            <input type="search" id="search" 
+            placeholder="Search"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='Search'" data-search>
         </div>
 
     </body>

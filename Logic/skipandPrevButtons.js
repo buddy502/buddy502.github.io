@@ -14,16 +14,28 @@ const playButton = document.getElementById('playButton');
 const pauseButton = document.getElementById('pauseButton');
 
 let currentNode = null;
+let currentRandomNode = null;
 
 function skipToNextSong() {
-     if (randomButtonActive) {
-        appendRandomSongToDll();
+if (randomButtonActive) {
+        if (!currentRandomNode) {
+            appendRandomSongToDll();
+            currentRandomNode = dll.tail;
+        }
 
-        const nextSong = dll.tail.data;
+        if (currentRandomNode && currentRandomNode.next) {
+            currentRandomNode = currentRandomNode.next;
+        } else {
+            appendRandomSongToDll();
+            currentRandomNode = dll.tail;
+        }
+
+        const nextSong = currentRandomNode.data;
         if (nextSong) {
             const audioUrl = nextSong.dataset.file;
             audioPlayer.src = audioUrl;
             audioPlayer.currentTime = 0;
+
             audioPlayer.play().catch((error) => {
                 console.error("Error playing random song:", error);
             });
@@ -34,6 +46,7 @@ function skipToNextSong() {
         return;
     }
 
+    // code for if random button isn't active
     if (!audioPlayer.src) return;
     // logic for skipping to next song with random button not pressed
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
@@ -60,8 +73,6 @@ function skipToNextSong() {
         console.error("Invalid next song container.");
     }
 }
-
-let currentRandomNode = null;
 
 function goToPreviousSong() {
     if (randomButtonActive) {
