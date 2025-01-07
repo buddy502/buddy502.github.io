@@ -102,7 +102,6 @@ export function deleteSongData(name, artist) {
                 const songArtist = song.artist || "";
 
                 const songNameWithoutExt = songName
-                    .replace(/\.[^/.]+$/, "")
                     .replace(/\//g, " ")
                     .replace(/\|/g, " ")
                     .replace(/\:/g, "")
@@ -110,6 +109,7 @@ export function deleteSongData(name, artist) {
                     .replace(/\】/g, "]");
 
                 if (songNameWithoutExt === name && songArtist === artist) {
+
                     const deleteRequest = store.delete(song.id);
 
                     deleteRequest.onerror = function(event) {

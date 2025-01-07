@@ -49,22 +49,6 @@ class DoublyLinkedList {
         return this.tail;
     }
 
-    deleteLastNode() {
-        if (!this.tail) return null;
-
-        let temp = this.tail;
-
-        if (this.head === this.tail) {
-            this.head = null;
-            this.tail = null;
-        } else {
-            this.tail = this.tail.prev;
-            this.tail.next = null;
-        }
-
-        return temp;
-    }
-
     deleteLinkedList() {
         let currentNode = this.head;
 
@@ -102,7 +86,7 @@ class DoublyLinkedList {
         if (!this.isEmpty()) {
             let curr = this.head;
             while (curr !== null) {
-                console.log(curr.data);
+                console.log("New Linked List:", curr.data);
                 curr = curr.next;
             }
         }
@@ -110,27 +94,26 @@ class DoublyLinkedList {
 }
 
 export const dll = new DoublyLinkedList();
-let currentSongRandom = dll.tail;
+let currentSongRandom = null;
 
 export function appendRandomSongToDll() {
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
     if (songContainers.length === 0) return;
 
-    const availableSongs = songContainers.filter((_, index) => index !== currentSongRandom);
+    let availableSongs = songContainers.filter((element) => element.dataset.file !== audioPlayer.src);
     if (availableSongs.length === 0) return;
 
     const rand = Math.floor(Math.random() * availableSongs.length);
     const randomSong = availableSongs[rand];
 
-    if (dll) {
-        dll.addItem(randomSong);
-        currentSongRandom = songContainers.indexOf(randomSong);
+    dll.addItem(randomSong);
 
-        audioPlayer.play().catch((error) => {
-            console.error("Error playing random song:", error);
-        });
+    const nextSong = dll.tail.data;
+    if (nextSong) {
+        const audioUrl = nextSong.dataset.file;
     }
 
+    console.log(dll);
     return dll;
 }
 
@@ -138,23 +121,25 @@ export let randomButtonActive = false;
 
 randomSongButton.addEventListener('click', () => {
     randomButtonActive = !randomButtonActive;
-    randomSongButton.classList.toggle("activeRandomSongButton"); // css toggle
+    randomSongButton.classList.toggle("activeRandomSongButton"); // CSS toggle
 
-    // if the random button isn't active
-    // delete dll and reset current song
     if (!randomButtonActive) {
         dll.deleteLinkedList();
-        currentSongRandom = dll.head;
+        currentSongRandom = null;
         return;
     }
-    // make sure audio player stays paused
-    if (audioPlayer.paused) return;
 
-    appendRandomSongToDll();
+    if (audioPlayer.src) {
+        const currentSongInDll = dll.tail && dll.tail.data && dll.tail.data.dataset.file === audioPlayer.src;
 
+        if (!currentSongInDll) {
+            const currentSong = { dataset: { file: audioPlayer.src } };
+            dll.addItem(currentSong);
+            currentSongRandom = dll.tail;
+        }
 
-    playButton.style.display = "none";
-    pauseButton.style.display = "inline-block";
+        appendRandomSongToDll();
+    }
 });
 
 audioPlayer.addEventListener('ended', () => {

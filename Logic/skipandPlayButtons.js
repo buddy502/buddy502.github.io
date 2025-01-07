@@ -1,5 +1,6 @@
 import { appendRandomSongToDll, randomButtonActive, dll } from './repeateAndRandButtons.js'
 import { currentSong } from './playSong.js'
+import { updatePlayPauseButtons } from './pausePlayButtons.js'
 
 const skipButton = document.getElementById('nextButton');
 const prevButton = document.getElementById('prevButton');
@@ -16,8 +17,6 @@ let currentNode = null;
 
 function skipToNextSong() {
      if (randomButtonActive) {
-        if (audioPlayer.paused) return; // Don't do anything if the player is paused
-
         appendRandomSongToDll();
 
         const nextSong = dll.tail.data;
@@ -62,28 +61,41 @@ function skipToNextSong() {
     }
 }
 
+let currentRandomNode = null;
+
 function goToPreviousSong() {
-if (randomButtonActive) {
-        if (audioPlayer.paused) return;
-
-        const deletedNode = dll.deleteLastNode();
-        
-        if (!deletedNode) return;
-
-        const nextSong = deletedNode.data;
-        if (nextSong) {
-            const audioUrl = nextSong.dataset.file;
-
-            if (audioPlayer.paused) {
-                audioPlayer.src = audioUrl;
+    if (randomButtonActive) {
+        // Check if DLL is empty or has only one node
+        if (!dll.head || !dll.tail.prev) {
+            const firstSong = dll.head?.data;
+            if (firstSong) {
+                audioPlayer.src = firstSong.dataset.file;
                 audioPlayer.currentTime = 0;
-                audioPlayer.play().catch((error) => {
-                    console.error("Error playing random song:", error);
-                });
 
-                playButton.style.display = "none";
-                pauseButton.style.display = "inline-block";
+                audioPlayer.play().catch((error) => {
+                    console.error("Error playing first random song:", error);
+                });
+                updatePlayPauseButtons(true);
             }
+            return;
+        }
+
+        if (currentRandomNode === null) {
+            currentRandomNode = dll.tail;
+        } else if (currentRandomNode === dll.head) {
+            return;
+        }
+
+        currentRandomNode = currentRandomNode.prev;
+
+        const previousSong = currentRandomNode?.data;
+        if (previousSong) {
+            audioPlayer.src = previousSong.dataset.file;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play().catch((error) => {
+                console.error("Error playing previous random song:", error);
+            });
+            updatePlayPauseButtons(true);
         }
         return;
     }
@@ -106,7 +118,6 @@ if (randomButtonActive) {
         audioPlayer.play().catch((error) => {
             console.error("Error playing audio:", error);
         });
-
     } else {
         console.error("Invalid previous song container.");
     }

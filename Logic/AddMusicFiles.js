@@ -5,8 +5,9 @@ export let songsList = [];
 const hiddenMusicText = document.getElementById('hiddenMusicText');
 const metadataContainer = document.getElementById('metadataContainer');
 
-function updateUI() {
-    if (songsList.length > 0) {
+export function updateUI() {
+    const songContainer = [...metadataContainer.querySelectorAll('.songContainer')];
+    if (songContainer.length > 0) {
         hiddenMusicText.style.display = "none";
         metadataContainer.style.height = "670px";
     } else {

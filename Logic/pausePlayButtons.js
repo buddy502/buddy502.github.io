@@ -1,6 +1,6 @@
 const audioPlayer = document.getElementById("audioPlayer");
 
-function updatePlayPauseButtons(isPlaying) {
+export function updatePlayPauseButtons(isPlaying) {
     const playButton = document.getElementById("playButton");
     const pauseButton = document.getElementById("pauseButton");
     if (isPlaying) {

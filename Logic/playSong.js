@@ -1,4 +1,4 @@
-import { randomButtonActive } from './repeateAndRandButtons.js'
+import { randomButtonActive, appendRandomSongToDll } from './repeateAndRandButtons.js'
 
 const playButton = document.getElementById("playButton");
 const pauseButton = document.getElementById("pauseButton");
@@ -81,15 +81,18 @@ const seekbar = document.getElementById('seekbar');
 if (metadataContainer) {
     metadataContainer.addEventListener("dblclick", (event) => {
         const songContainer = event.target.closest(".songContainer");
-        const audioFile = songContainer.dataset.file;
+        
+        if (!songContainer) return;
 
-        if (songContainer && audioFile) {
-                audioPlayer.src = audioFile;
-                seekbar.value = 0;
-                audioPlayer.currentTime = 0;
-                audioPlayer.play();
-                playButton.style.display = "none";
-                pauseButton.style.display = "inline-block";
+        const audioFile = songContainer?.dataset.file;
+
+        if (audioFile) {
+            audioPlayer.src = audioFile;
+            seekbar.value = 0;
+            audioPlayer.currentTime = 0;
+            audioPlayer.play();
+            playButton.style.display = "none";
+            pauseButton.style.display = "inline-block";
         }
     });
 }

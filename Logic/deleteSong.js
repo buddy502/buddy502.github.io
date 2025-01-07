@@ -1,4 +1,4 @@
-import { getMusicMetadata } from './AddMusicFiles.js'
+import { getMusicMetadata, updateUI } from './AddMusicFiles.js'
 import { deleteSongData } from './storeSongFiles.js'
 
 const contextMenu = document.getElementById("contextMenu");
@@ -6,6 +6,7 @@ const songContext = document.getElementById('songContext');
 
 function hidesongContainerMenu(event) {
     songContext.style.display = "none";
+    updateUI();
 }
 
 const removeSongInfo = document.getElementById('removeSongInfo');
