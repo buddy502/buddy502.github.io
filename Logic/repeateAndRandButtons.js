@@ -40,15 +40,6 @@ class DoublyLinkedList {
         this.tail = null;
     }
 
-    getNextNode() {
-        if (!this.tail || !this.tail.next) {
-            return null;
-        }
-
-        this.tail = this.tail.next;
-        return this.tail;
-    }
-
     deleteLinkedList() {
         let currentNode = this.head;
 
@@ -94,7 +85,12 @@ class DoublyLinkedList {
 }
 
 export const dll = new DoublyLinkedList();
-let currentSongRandom = null;
+export let currentSongRandom = null;
+
+export function getCurrentSongRandom(newSong) {
+    currentSongRandom = newSong;
+}
+
 
 export function appendRandomSongToDll() {
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
@@ -118,30 +114,30 @@ export function appendRandomSongToDll() {
     return dll;
 }
 
+export function appendCurrentSongToDll() {
+    if (audioPlayer.src) {
+        const currentSong = { dataset: { file: audioPlayer.src } };
+        if (!dll.tail || dll.tail.data.dataset.file !== audioPlayer.src) {
+            dll.addItem(currentSong);
+            currentSongRandom = dll.tail;
+        }
+    }
+}
+
 export let randomButtonActive = false;
 
 randomSongButton.addEventListener('click', () => {
     randomButtonActive = !randomButtonActive;
-    randomSongButton.classList.toggle("activeRandomSongButton"); // CSS toggle
+    randomSongButton.classList.toggle("activeRandomSongButton");
 
-    if (!randomButtonActive) {
+    if (randomButtonActive) {
+        appendCurrentSongToDll();
+    } else {
         dll.deleteLinkedList();
         currentSongRandom = null;
-        return;
-    }
-
-    if (audioPlayer.src) {
-        const currentSongInDll = dll.tail && dll.tail.data && dll.tail.data.dataset.file === audioPlayer.src;
-
-        if (!currentSongInDll) {
-            const currentSong = { dataset: { file: audioPlayer.src } };
-            dll.addItem(currentSong);
-            currentSongRandom = dll.tail;
-        }
-
-        appendRandomSongToDll();
     }
 });
+
 
 audioPlayer.addEventListener('ended', () => {
     if (!randomButtonActive) {

@@ -1,4 +1,4 @@
-import { randomButtonActive, appendRandomSongToDll } from './repeateAndRandButtons.js'
+import { randomButtonActive, appendRandomSongToDll, dll, getCurrentSongRandom } from './repeateAndRandButtons.js'
 
 const playButton = document.getElementById("playButton");
 const pauseButton = document.getElementById("pauseButton");
@@ -16,6 +16,10 @@ function highlightCurrentSong(songContainer) {
         if (textElement) {
             textElement.classList.remove('highlightedText');
         }
+        const imageMetadataStyles = previousHighlightedContainer.querySelector('.imageMetadataStyles');
+        if (textElement) {
+            imageMetadataStyles.classList.remove('highlightedImage');
+        }
     }
 
     // Add the highlighted class to the current song container and text element
@@ -24,6 +28,10 @@ function highlightCurrentSong(songContainer) {
         const textElement = songContainer.querySelector('.textMetadataStyles');
         if (textElement) {
             textElement.classList.add('highlightedText');
+        }
+        const imageElement = songContainer.querySelector('.imageMetadataStyles');
+        if (imageElement) {
+            imageElement.classList.add('highlightedImage');
         }
     }
 
@@ -84,6 +92,10 @@ if (metadataContainer) {
         
         if (!songContainer) return;
 
+        if (randomButtonActive) {
+            dll.addItem(songContainer);
+            getCurrentSongRandom(dll.tail);
+        }
         const audioFile = songContainer?.dataset.file;
 
         if (audioFile) {

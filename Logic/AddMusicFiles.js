@@ -81,23 +81,24 @@ export function getMusicMetadata(file) {
             songContainer.dataset.file = URL.createObjectURL(file);
             songContainer.style.display = "flex";
             songContainer.style.flexWrap = "wrap";
-            songContainer.style.width = "120px";
-            songContainer.style.height = "150px";
+            songContainer.style.width = "125px";
+            songContainer.style.height = "140px";
             songContainer.style.justifyContent = "center";
-            songContainer.style.alignContent = "flex-start";
             songContainer.style.aspectRatio = "3/2";
+            songContainer.style.paddingTop = "10px";
 
             // Create and style the image metadata
             const imageDiv = document.createElement('div');
             imageDiv.classList.add('imageMetadataStyles');
             if (imageSrc) {
                 imageDiv.style.backgroundImage = `url('${imageSrc}')`;
-                imageDiv.style.backgroundSize = "contain";
+                imageDiv.style.width = "70%";
+                imageDiv.style.height = "80px";
                 imageDiv.style.backgroundRepeat = "no-repeat";
                 imageDiv.style.backgroundPosition = "center";
-                imageDiv.style.width = "80%";
-                imageDiv.style.height = "80px";
+                imageDiv.style.backgroundSize = "cover";
                 imageDiv.style.overflow = "hidden";
+                imageDiv.style.borderRadius = "8px";
             }
 
             // Create and style the text metadata
@@ -108,10 +109,9 @@ export function getMusicMetadata(file) {
             textDiv.style.marginBottom = "10px";
             textDiv.style.textAlign = "center";
 
-            // hidden text for full name and artist
             textDiv.innerHTML = `
-                <p class='name'>${name}</p>
-                <p class='artist'>${artist}</p>
+                <p class='name' style="margin-top: 0px; margin-bottom: 0px">${name}</p>
+                <p class='artist' style="margin-top: 7px; margin-bottom: 0px">${artist}</p>
 
                 <p class='hiddenNameText'>${hiddenNameText}</p>
                 <p class='hiddenArtistText'>${hiddenArtistText}</p>

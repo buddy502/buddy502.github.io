@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="./stylefiles/contextMenuRightClick.css">
         <link rel="stylesheet" href="./stylefiles/playerControls.css">
         <link rel="stylesheet" href="./stylefiles/searchBarStyles.css">
+        <link rel="stylesheet" href="./stylefiles/directoryFilesHide.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/musicmetadata/2.0.0/musicmetadata.js"></script>
 
@@ -77,8 +78,7 @@
                 <div id="songContext">
                     <ul id="songContextUl">
                         <li id="removeSongInfo">
-                            <img id="trashBinIcon" src="./Icons/Red Trash Bin.png" alt="Trash Bin Icon">
-                            Delete Song
+                            <img id="trashBinIcon" src="./Icons/Red Trash Bin.png" alt="Trash Bin Icon"> Delete Song
                         </li>
                     </ul>
                 </div>
@@ -108,12 +108,9 @@
             <button id="randomSongButton"></button>
         </div>
 
-        <div id="searchBar">
-            <input type="search" id="search" 
-            placeholder="Search"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='Search'" data-search>
-        </div>
+        <input type="search" id="searchBar" placeholder="Search"
+        onfocus="this.placeholder=''"
+        onblur="this.placeholder='Search'">
 
     </body>
 </html>

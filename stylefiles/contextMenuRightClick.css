@@ -55,29 +55,37 @@
 }
 
 #songContext ul {
-    display: block;
-    text-align: left;
+    display: flex;
+    flex-direction: column; /* Stack list items vertically */
+    align-items: stretch; /* Ensure list items span the full width */
     position: absolute;
-    padding-left: 0px;
+    padding: 0; /* Reset padding */
     min-width: 150px;
-    list-style: none;
+    list-style: none; /* Remove bullets */
     box-shadow: 4px 4px 13px 2px rgba(45, 45, 45, 0.8);
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0; /* Reset margins */
     background-color: white;
+    border-radius: 8px; /* Optional: Rounded corners */
+    overflow: hidden; /* Prevent overflow if necessary */
 }
 
-#songContext li img#trashBinIcon {
-    width: 20px;
-    height: 20px;
-    padding-right: 10px;
-    padding-left: 3px;
+#songContext ul li:hover {
+    background-color: rgba(174, 255, 255, 230);
 }
 
 #songContext ul li {
     display: flex;
-    text-align: center;
-    padding-bottom: 7px;
-    padding-top: 7px;
+    flex-direction: row; /* Place image and text side by side */
+    align-items: center; /* Center items vertically */
+    padding: 10px; /* Add consistent padding */
     background-color: rgb(230, 230, 230);
+    border-bottom: 1px solid #ddd; /* Add a separator between items */
+    gap: 10px; /* Add space between the image and text */
+}
+
+#songContext li img {
+    width: 20px;
+    height: 20px;
+    padding-right: 10px;
+    padding-left: 3px;
 }

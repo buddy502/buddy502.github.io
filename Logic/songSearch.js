@@ -1,5 +1,5 @@
 const metadataContainer = document.getElementById("metadataContainer");
-const searchInput = document.querySelector("[data-search]");
+const searchInput = document.getElementById('searchBar');
 
 // Search functionality
 searchInput.addEventListener("input", (e) => {
@@ -12,6 +12,6 @@ searchInput.addEventListener("input", (e) => {
         const artist = textMetadataStyles.querySelector('.hiddenArtistText').innerText.toLowerCase();
 
         const isVisible = nameWithExt.includes(value) || artist.includes(value);
-        song.classList.toggle("hide", !isVisible);
+        song.style.display = isVisible ? "flex" : "none";
     });
 });
