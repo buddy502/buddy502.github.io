@@ -30,6 +30,7 @@
         <script type="module" src="./Logic/pausePlayButtons.js" defer></script>
         <script type="module" src="./Logic/playerControls.js" defer></script>
         <script type="module" src="./Logic/songSearch.js" defer></script>
+        <script type="module" src="./Logic/informationRightClick.js" defer></script>
 
     </head>
 
@@ -41,7 +42,6 @@
 
         <div class="headerOptionButtons">
             <a href="MediaLibrary.html" class="headerButtonStyles">Media Library</a>
-            <a href="playlists.html" class="headerButtonStyles">Playlists</a>
         </div>
 
         <div id="contextMenu" class="context-menu" style="display:none">
@@ -79,6 +79,12 @@
                     <ul id="songContextUl">
                         <li id="removeSongInfo">
                             <img id="trashBinIcon" src="./Icons/Red Trash Bin.png" alt="Trash Bin Icon"> Delete Song
+                        </li>
+                        <li id="playRightClick">
+                            <img id="playSongIcon" src="./Icons/Play Button.png" alt="Play Button Icon"> Play Song
+                        </li>
+                        <li id="informationRightClick">
+                            <img id="informationIcon" src="./Icons/Information Icon.png" alt="Information Icon"> Information
                         </li>
                     </ul>
                 </div>

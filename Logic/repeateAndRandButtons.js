@@ -50,13 +50,13 @@ class DoublyLinkedList {
             currentNode = nextNode;
         }
 
+        let length = 0;
         this.head = null;
         this.tail = null;
     } 
 
     isEmpty() {
-        if (this.head == null) return true;
-        return false;
+        return this.head === null;
     }
  
     addItem(val) {
@@ -69,8 +69,13 @@ class DoublyLinkedList {
         else {
             this.tail.next = temp;
             temp.prev = this.tail
-            this.tail = this.tail.next;
+            this.tail = temp;
         }
+        console.log(dll.head)
+        console.log(dll.tail)
+
+        length++;
+        console.log(length)
     }
  
     display() {

@@ -82,7 +82,7 @@ export function getMusicMetadata(file) {
             songContainer.style.display = "flex";
             songContainer.style.flexWrap = "wrap";
             songContainer.style.width = "125px";
-            songContainer.style.height = "140px";
+            songContainer.style.height = "150px";
             songContainer.style.justifyContent = "center";
             songContainer.style.aspectRatio = "3/2";
             songContainer.style.paddingTop = "10px";

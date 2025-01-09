@@ -92,6 +92,11 @@ if (metadataContainer) {
         
         if (!songContainer) return;
 
+        // delete linked list for reset
+        if (dll.head) {
+            dll.deleteLinkedList();
+        }
+
         if (randomButtonActive) {
             dll.addItem(songContainer);
             getCurrentSongRandom(dll.tail);
@@ -108,3 +113,37 @@ if (metadataContainer) {
         }
     });
 }
+
+let currentSongContainer = null;
+
+document.addEventListener("contextmenu", (event) => {
+    const songContainer = event.target.closest('.songContainer');
+
+    if (songContainer) {
+        currentSongContainer = songContainer;
+    }
+});
+
+document.addEventListener("click", (event) => {
+    const playRightClick = event.target.closest('#playRightClick');
+    
+    if (!playRightClick || !currentSongContainer) {
+        return;
+    }
+
+    const songUrl = currentSongContainer.getAttribute('data-file');
+
+    const audioPlayer = document.querySelector("#audioPlayer");
+
+    if (audioPlayer && songUrl) {
+        audioPlayer.src = songUrl;
+        audioPlayer.play()
+            .then(() => console.log("Audio playing..."))
+            .catch((err) => console.error("Error playing audio:", err));
+    } else {
+        console.error("Audio player or song URL not found!");
+    }
+
+    playButton.style.display = "none";
+    pauseButton.style.display = "inline-block";
+});

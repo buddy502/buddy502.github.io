@@ -19,7 +19,6 @@ let currentRandomNode = null;
 function skipToNextSong() {
 if (randomButtonActive) {
         if (!currentRandomNode) {
-            appendRandomSongToDll();
             currentRandomNode = dll.tail;
         }
 

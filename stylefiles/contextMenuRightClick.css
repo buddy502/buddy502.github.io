@@ -17,6 +17,7 @@
     list-style: none;
     box-shadow: 6px 6px 20px 3px rgba(45, 45, 45, 0.8);
     margin-top: 0px;
+    border-radius: 8px;
     margin-bottom: 0px;
 }
 
@@ -32,16 +33,11 @@
     background-color: rgba(174, 255, 255, 230);
 }
 
-#contextMenu li img#folderIconImage {
-    width: 20px;
-    height: 20px;
-    padding-right: 10px;
-}
-
-#contextMenu li img#FileIconImage {
+#contextMenu li img {
     width: 21px;
     height: 21px;
     padding-right: 10px;
+    margin-left: 5px;
 }
 
 #songContext {
@@ -55,18 +51,15 @@
 }
 
 #songContext ul {
-    display: flex;
-    flex-direction: column; /* Stack list items vertically */
-    align-items: stretch; /* Ensure list items span the full width */
+    display: block;
+    text-align: left;
     position: absolute;
-    padding: 0; /* Reset padding */
+    padding: 0;
     min-width: 150px;
-    list-style: none; /* Remove bullets */
+    list-style: none;
     box-shadow: 4px 4px 13px 2px rgba(45, 45, 45, 0.8);
-    margin: 0; /* Reset margins */
     background-color: white;
-    border-radius: 8px; /* Optional: Rounded corners */
-    overflow: hidden; /* Prevent overflow if necessary */
+    border-radius: 8px;
 }
 
 #songContext ul li:hover {
@@ -75,17 +68,22 @@
 
 #songContext ul li {
     display: flex;
-    flex-direction: row; /* Place image and text side by side */
-    align-items: center; /* Center items vertically */
-    padding: 10px; /* Add consistent padding */
+    align-items: center;
+    padding-bottom: 8px;
+    padding-top: 8px;
     background-color: rgb(230, 230, 230);
-    border-bottom: 1px solid #ddd; /* Add a separator between items */
-    gap: 10px; /* Add space between the image and text */
 }
 
 #songContext li img {
-    width: 20px;
-    height: 20px;
+    width: 19px;
+    height: 19px;
     padding-right: 10px;
-    padding-left: 3px;
+    margin-left: 5px;
+}
+
+#songContext li img#playSongIcon {
+    width: 21px;
+    height: 21px;
+    padding-right: 10px;
+    margin-left: 5px;
 }

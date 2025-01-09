@@ -38,7 +38,8 @@
 }
 
 .imageMetadataStyles.highlightedImage {
-    width: 85% !important;
+    width: 78% !important;
+    height: 57% !important;
 }
 
 #borderWithSongs #hiddenMusicText {
