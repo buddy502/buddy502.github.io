@@ -59,10 +59,6 @@ export function storeVolume() {
     // Store or update the volume data
     const putRequest = store.put(volumeData);
 
-    putRequest.onsuccess = function () {
-        console.log("Volume data stored successfully:", volumeData);
-    };
-
     putRequest.onerror = function (event) {
         console.error("Error storing volume data:", event.target.error);
     };
@@ -86,8 +82,6 @@ function loadVolumeData() {
         const volumeData = event.target.result;
 
         if (volumeData) {
-            console.log(`Loaded volume: ${volumeData.value}, percentage: ${volumeData.percentage}`);
-
             audioPlayer.volume = volumeData.value;
             volumePercentage.innerText = volumeData.percentage;
             volumeControl.value = volumeData.sliderValue;

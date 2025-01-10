@@ -190,6 +190,7 @@ document.addEventListener('keydown', (event) => {
         audioPlayer.volume = newVolumeUp / 100;
 
         updateVolumeSliderBackground(volumeControl);
+        storeVolume();
 
     } else if (event.key === "ArrowDown") {
         if (currentVolume % 5 !== 0) {
@@ -202,6 +203,7 @@ document.addEventListener('keydown', (event) => {
         audioPlayer.volume = newVolumeDown / 100;
 
         updateVolumeSliderBackground(volumeControl);
+        storeVolume();
     }
 });
 
