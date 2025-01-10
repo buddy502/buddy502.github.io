@@ -1,3 +1,5 @@
+import { storeVolume } from './storeSongFiles.js'
+
 const audioPlayer = document.getElementById("audioPlayer");
 
 audioPlayer.addEventListener('loadedmetadata', () => {
@@ -130,7 +132,7 @@ audioPlayer.addEventListener('timeupdate', () => {
 
 const volumeControl = document.getElementById('volumeControl');
 
-function updateVolumeSliderBackground(slider) {
+export function updateVolumeSliderBackground(slider) {
     const value = slider.value;
     const max = slider.max;
 
@@ -171,37 +173,40 @@ document.addEventListener('keydown', (event) => {
         event.preventDefault();
         return;
     }
-    // only do the rest if slider is active
+    
+    // Only proceed if the volume slider is active
     if (!isVolumeActive) return;
 
-    let newVolumeDown = Math.floor(volumeControl.value);
-    let newVolumeUp = Math.ceil(volumeControl.value);
+    let currentVolume = volumeControl.value;
 
     if (event.key === "ArrowUp") {
-        if (newVolumeUp % 5 !== 0) {
-            newVolumeUp = Math.ceil(newVolumeUp / 5) * 5;
-        }else {
-            newVolumeUp = Math.min(newVolumeUp + 5, 100);
+        if (currentVolume % 5 !== 0) {
+            currentVolume = Math.ceil(currentVolume / 5) * 5;
         }
 
-        updateVolumeSliderBackground(volumeControl);
+        let newVolumeUp = Math.min(parseInt(currentVolume) + 5, 100);
 
         volumeControl.value = newVolumeUp;
-
-    } else if (event.key === "ArrowDown") {
-        if (newVolumeDown % 5 !== 0) {
-            newVolumeDown = Math.floor(newVolumeDown / 5) * 5;
-        }else {
-            newVolumeDown = Math.max(newVolumeDown - 5, 0);
-        }
+        audioPlayer.volume = newVolumeUp / 100;
 
         updateVolumeSliderBackground(volumeControl);
 
+    } else if (event.key === "ArrowDown") {
+        if (currentVolume % 5 !== 0) {
+            currentVolume = Math.floor(currentVolume / 5) * 5;
+        }
+
+        let newVolumeDown = Math.max(parseInt(currentVolume) - 5, 0);
+
         volumeControl.value = newVolumeDown;
+        audioPlayer.volume = newVolumeDown / 100;
+
+        updateVolumeSliderBackground(volumeControl);
     }
 });
 
 // Volume control
 volumeControl.addEventListener('input', () => {
     audioPlayer.volume = volumeControl.value / 100;
+    storeVolume();
 });
