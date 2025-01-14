@@ -12,14 +12,6 @@ function changeHandler({ target }) {
 
 document.getElementById("fileInputRightClick").addEventListener("change", changeHandler);
 document.getElementById("directoryRightClick").addEventListener("change", changeHandler);
-document.getElementById("fileExplorerMyMusic").addEventListener("change", changeHandler);
-
-//
-// MY MUSIC DIRECTORY / FILE SELECTION
-//
-document.getElementById("fileExplorerMyMusic").addEventListener("click", () => {
-    document.getElementById("fileInput").click();
-});
 
 //
 // RIGHT CLICK DIRECTORY / FILE SELECTION

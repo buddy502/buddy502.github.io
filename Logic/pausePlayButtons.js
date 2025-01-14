@@ -12,26 +12,27 @@ export function updatePlayPauseButtons(isPlaying) {
     }
 }
 
-document.addEventListener('keydown', (event) => {
+const pauseButton = document.getElementById("pauseButton");
+const playButton = document.getElementById("playButton");
+
+function togglePlayPause(event) {
     if (event.key === 'p' || event.key === 'P') {
         event.preventDefault();
 
         if (audioPlayer.paused) {
             audioPlayer.play();
-
             playButton.style.display = "none";
             pauseButton.style.display = "inline-block";
         } else {
             audioPlayer.pause();
-
             pauseButton.style.display = "none";
             playButton.style.display = "inline-block";
         }
     }
-});
+}
 
-const playButton = document.getElementById("playButton");
-const pauseButton = document.getElementById("pauseButton");
+pauseButton.addEventListener('keydown', togglePlayPause);
+playButton.addEventListener('keydown', togglePlayPause);
 
 playButton.addEventListener("click", () => {
     if (!audioPlayer.paused && audioPlayer.currentTime > 0) {

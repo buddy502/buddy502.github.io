@@ -71,11 +71,22 @@ class DoublyLinkedList {
             temp.prev = this.tail
             this.tail = temp;
         }
-        console.log(dll.head)
-        console.log(dll.tail)
 
         length++;
-        console.log(length)
+    }
+
+    prependItem(val) {
+        let temp = new Node(val);
+
+        this.length++;
+        if (!this.head) {
+            this.head = this.tail = temp;
+            return
+        }
+
+        temp.next = this.head;
+        this.head.prev = temp;
+        this.head = temp;
     }
  
     display() {
@@ -96,6 +107,27 @@ export function getCurrentSongRandom(newSong) {
     currentSongRandom = newSong;
 }
 
+export function prependRandomSongToDll() {
+    const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
+    if (songContainers.length === 0) return;
+
+    let availableSongs = songContainers.filter((element) => element.dataset.file !== audioPlayer.src);
+    if (availableSongs.length === 0) return;
+
+    const rand = Math.floor(Math.random() * availableSongs.length);
+    const randomSong = availableSongs[rand];
+
+    dll.prependItem(randomSong);
+
+    currentSongRandom = dll.head;
+
+    const nextSong = dll.head.data;
+    if (nextSong) {
+        const audioUrl = nextSong.dataset.file;
+    }
+
+    return dll;
+}
 
 export function appendRandomSongToDll() {
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
@@ -120,12 +152,30 @@ export function appendRandomSongToDll() {
 }
 
 export function appendCurrentSongToDll() {
-    if (audioPlayer.src) {
-        const currentSong = { dataset: { file: audioPlayer.src } };
-        if (!dll.tail || dll.tail.data.dataset.file !== audioPlayer.src) {
-            dll.addItem(currentSong);
-            currentSongRandom = dll.tail;
+    const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
+    if (songContainers.length === 0) return;
+
+    const currentSongContainer = songContainers.find(
+        (container) => container.dataset.file === audioPlayer.src
+    );
+
+    if (!currentSongContainer) {
+        console.error("Current song container not found.");
+        return;
+    }
+
+    if (!dll.tail || dll.tail.data.dataset.file !== currentSongContainer.dataset.file) {
+        const newNode = { data: currentSongContainer, next: null, prev: null };
+
+        if (!dll.tail) {
+            dll.head = dll.tail = newNode;
+        } else {
+            newNode.prev = dll.tail;
+            dll.tail.next = newNode;
+            dll.tail = newNode;
         }
+
+        currentSongRandom = dll.tail;
     }
 }
 
@@ -149,10 +199,8 @@ audioPlayer.addEventListener('ended', () => {
         return;
     }
 
-    // Ensure we are appending a song to the DLL before proceeding
     appendRandomSongToDll();
 
-    // Check if the DLL has a valid tail (last appended song)
     const nextSong = dll.tail ? dll.tail.data : null;
     if (!nextSong) {
         console.error("No song available to play.");

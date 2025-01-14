@@ -1,0 +1,95 @@
+.song-info {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200mx ease-in-out;
+    border: 1px solid black;
+    border-radius: 10px;
+    z-index: 10;
+    background-color: white;
+    width: 600px;
+    max-width: 80%;
+}
+
+.song-info.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.song-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.song-header .title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.song-header .close-button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.info-body {
+    padding: 10px 15px;
+}
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 300ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.info-container {
+    display: flex;
+    align-items: center;
+}
+
+.info-text {
+    flex-grow: 1;
+}
+
+.info-text strong {
+    font-size: 17px;
+}
+
+.info-text p {
+    margin: 0;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.info-text hr {
+    margin-top: 5px;
+}
+
+.info-image {
+    margin-left: 15px;
+    margin-top: 51px;
+}
+
+.info-image img {
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+}

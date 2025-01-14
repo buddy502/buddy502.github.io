@@ -44,8 +44,3 @@ body {
 .headerButtonStyles:hover {
     color: rgb(150, 150, 150);
 }
-
-.headerOptionButtons {
-    display: flex;
-    width: 100%;
-}

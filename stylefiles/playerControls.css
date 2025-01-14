@@ -1,31 +1,30 @@
-button {
+.audioControls button {
+    display: flex;
+    flex-direction: column;
     border: 2px solid transparent;
     outline: none;
     width: 40px;
     height: 40px;
     cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+    background-color: transparent;
     position: fixed;
     left: 20px;
     bottom: 20px;
 }
 
 .audioControls {
-    display: inline-block;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    position: absolute;
+    position: fixed;
+    display: flex;
+    bottom: 25px;
     left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
+    right: 0;
+    max-height: calc(100vh - 100px);
+    min-height: 100px;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 button:hover {
@@ -39,38 +38,33 @@ button:active {
 #playButton {
     display: inline-block;
     background-image: url('../Icons/Play Button.png');
-    margin-top: 5vh;
-    margin-left: 4vw;
+    left: 80px;
     bottom: 0;
 }
 
 #pauseButton {
     display: none;
     background-image: url('../Icons/pause button icon.png');
-    margin-top: 5vh;
-    margin-left: 4vw;
+    left: 80px;
     bottom: 0;
 }
 
 #prevButton {
     background-image: url('../Icons/Skip Button.jpg');
-    margin-top: 5vh;
     bottom: 0;
     left: 0;
 }
 
 #nextButton {
     background-image: url('../Icons/Skip Button.jpg');
-    margin-top: 5vh;
-    margin-left: 9vw;
     transform: scaleX(-1);
+    left: 150px;
     bottom: 0;
 }
 
 #repeateSongButton {
     background-image: url('../Icons/repeate song button.png');
-    margin-top: 5vh;
-    margin-left: 18vw;
+    left: 300px;
     bottom: 0;
 }
 
@@ -80,8 +74,7 @@ button:active {
 
 #randomSongButton {
     background-image: url('../Icons/random song button.png');
-    margin-top: 5vh;
-    margin-left: 22vw;
+    left: 350px;
     bottom: 0;
 }
 
@@ -90,17 +83,26 @@ button:active {
 }
 
 #seekbar {
-    width: calc(90% - 20px);
+    position: fixed;
+    left: 50px;
+    right: 100px;
     height: 9px;
     appearance: none;
     cursor: context-menu;
-    margin-left: 20px;
     border: 1px solid rgb(60, 60, 60);
     border-radius: 5px;
 }
 
 #seekbarDuration {
-    margin-left: 10px;
+    position: absolute;
+    left: 10px;
+    top: -2px;
+}
+
+#seekbarTotalDuration {
+    position: absolute;
+    right: 60px;
+    top: -2px;
 }
 
 #seekbar::-webkit-slider-thumb {
@@ -119,7 +121,6 @@ button:active {
 #seekbar.disabled::-webkit-slider-thumb {
     pointer-events: none;
     background: gray;
-    cursor: not-allowed;
 }
 
 #seekbar.hovered::-webkit-slider-thumb {
@@ -146,6 +147,7 @@ button:active {
     appearance: none;
     transform: rotate(-90deg);
     right: 0;
+    bottom: 30px;
     position: absolute;
     pointer-events: auto;
 }
@@ -161,7 +163,7 @@ button:active {
 
 #volumePercentage {
     right: 0;
-    bottom: 0;
-    position: absolute;
-    margin-right: 11px;
+    bottom: 5px;
+    position: fixed;
+    margin-right: 15px;
 }

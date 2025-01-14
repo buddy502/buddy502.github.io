@@ -9,12 +9,10 @@
     box-sizing: border-box;
     position: fixed;
     top: 100px;
-    left: 400px;
+    left: 340px;
     right: 0;
-    overflow-y: scroll;
     box-shadow: -1px 7px 30px 2px rgba(45, 45, 45, 0.8);
-    height: auto; /* Let the content define the height */
-    max-height: calc(100vh - 230px); /* Maximum height based on viewport */
+    max-height: calc(100vh - 260px);
     min-height: 350px;
 }
 
@@ -26,6 +24,7 @@
     flex-wrap: wrap;
     align-items: flex-start;
     align-content: flex-start;
+    overflow: auto;
 }
 
 .songContainer:hover {
@@ -74,30 +73,34 @@
 }
 
 .leftSideMenu {
-    margin-top: 8vh;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     width: fit-content;
 }
 
 #ComputerText {
-    width: fit-content;
     font-weight: bold;
-    font-size: 20px;
-    margin-left: 50px;
+    font-size: 22px;
+    margin-left: 65px;
 }
 
 .MyMusic {
-    display: inline-block;
-    min-width: 18vw;
-    max-width: fit-content;
+    display: flex;
+    align-items: center;
+    min-width: 300px;
+    top: 30px;
     text-align: left;
-    font-size: 17px;
-    margin-top: 3vh;
     text-decoration: none;
     color: black;
     border: none;
     position: relative;
+    border-color: white;
+    background-color: transparent;
+}
+
+.MyMusic > p {
+    font-size: 17px;
 }
 
 .MyMusic:hover {
@@ -107,7 +110,6 @@
 }
 
 .MyMusic > img {
-    margin-right: 1vh;
-    width: 15px;
     height: 18px;
+    padding-right: 20px;
 }

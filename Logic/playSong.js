@@ -138,7 +138,6 @@ document.addEventListener("click", (event) => {
     if (audioPlayer && songUrl) {
         audioPlayer.src = songUrl;
         audioPlayer.play()
-            .then(() => console.log("Audio playing..."))
             .catch((err) => console.error("Error playing audio:", err));
     } else {
         console.error("Audio player or song URL not found!");

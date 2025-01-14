@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="./stylefiles/playerControls.css">
         <link rel="stylesheet" href="./stylefiles/searchBarStyles.css">
         <link rel="stylesheet" href="./stylefiles/directoryFilesHide.css">
+        <link rel="stylesheet" href="./stylefiles/songInfoRightClick.css">
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/musicmetadata/2.0.0/musicmetadata.js"></script>
 
@@ -32,16 +33,14 @@
         <script type="module" src="./Logic/songSearch.js" defer></script>
         <script type="module" src="./Logic/informationRightClick.js" defer></script>
 
+        
+        <script type="module" src="./spotifyAPI/clientSpotifyButton.js" defer></script>
     </head>
 
     <body>
         <div class="backgroundTopHeader">
             <img class="MusicAppIcon" src="./Icons/Music App Icon.png" alt="Header Icon">
             Buddy's Music Player
-        </div>
-
-        <div class="headerOptionButtons">
-            <a href="MediaLibrary.html" class="headerButtonStyles">Media Library</a>
         </div>
 
         <div id="contextMenu" class="context-menu" style="display:none">
@@ -57,13 +56,11 @@
             </ul>
         </div>
 
-        <input type="file" id="fileInput" style="display: none;" webkitdirectory directory multiple/>
-
         <div class="leftSideMenu">
-            <div id="ComputerText">Computer Files</div>
-            <button id="fileExplorerMyMusic" class="MyMusic">
+            <div id="ComputerText">Library</div>
+            <button id="spotifyAuthSongs" class="MyMusic">
                 <img src="./Icons/Quarter Note.png" alt="My Music Icon">
-                My Music
+                <p>Add Spotify Songs</p>
             </button>
         </div>
 
@@ -83,7 +80,7 @@
                         <li id="playRightClick">
                             <img id="playSongIcon" src="./Icons/Play Button.png" alt="Play Button Icon"> Play Song
                         </li>
-                        <li id="informationRightClick">
+                        <li data-info-target="#songInfo" id="informationRightClick">
                             <img id="informationIcon" src="./Icons/Information Icon.png" alt="Information Icon"> Information
                         </li>
                     </ul>
@@ -118,5 +115,14 @@
         onfocus="this.placeholder=''"
         onblur="this.placeholder='Search'">
 
+        <div id="songInfo" class="song-info">
+            <div class="song-header">
+                <div class="title">Media Info</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+            <div class="info-body"></div>
+        </div>
+
+        <div id="overlay"></div>
     </body>
 </html>

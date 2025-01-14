@@ -1,4 +1,4 @@
-import { appendRandomSongToDll, randomButtonActive, dll } from './repeateAndRandButtons.js'
+import { appendRandomSongToDll, randomButtonActive, dll, appendCurrentSongToDll, prependRandomSongToDll } from './repeateAndRandButtons.js'
 import { currentSong } from './playSong.js'
 import { updatePlayPauseButtons } from './pausePlayButtons.js'
 
@@ -24,9 +24,11 @@ if (randomButtonActive) {
 
         if (currentRandomNode && currentRandomNode.next) {
             currentRandomNode = currentRandomNode.next;
-        } else {
+        } else if (!currentRandomNode.next){
             appendRandomSongToDll();
             currentRandomNode = dll.tail;
+        } else {
+            currentRandomNode = currentRandomNode.next;
         }
 
         const nextSong = currentRandomNode.data;
@@ -73,31 +75,19 @@ if (randomButtonActive) {
     }
 }
 
-function goToPreviousSong() {
+function previousSong() {
     if (randomButtonActive) {
-        // Check if DLL is empty or has only one node
-        if (!dll.head || !dll.tail.prev) {
-            const firstSong = dll.head?.data;
-            if (firstSong) {
-                audioPlayer.src = firstSong.dataset.file;
-                audioPlayer.currentTime = 0;
-
-                audioPlayer.play().catch((error) => {
-                    console.error("Error playing first random song:", error);
-                });
-                updatePlayPauseButtons(true);
-            }
-            return;
+        if (!currentRandomNode) {
+            prependRandomSongToDll(); // Prepend a new random song if needed
+            currentRandomNode = dll.head; // Start at the new head
+        } else if (!currentRandomNode.prev) {
+            prependRandomSongToDll(); // Prepend if at the head
+            currentRandomNode = dll.head; // Move to the new head
+        } else {
+            currentRandomNode = currentRandomNode.prev; // Move to the previous node
         }
 
-        if (currentRandomNode === null) {
-            currentRandomNode = dll.tail;
-        } else if (currentRandomNode === dll.head) {
-            return;
-        }
-
-        currentRandomNode = currentRandomNode.prev;
-
+        // Play the previous random song
         const previousSong = currentRandomNode?.data;
         if (previousSong) {
             audioPlayer.src = previousSong.dataset.file;
@@ -105,23 +95,23 @@ function goToPreviousSong() {
             audioPlayer.play().catch((error) => {
                 console.error("Error playing previous random song:", error);
             });
-            updatePlayPauseButtons(true);
         }
+
+        updatePlayPauseButtons(true);
         return;
     }
 
+    // Code for when the random button is not active
     const songContainers = [...metadataContainer.querySelectorAll('.songContainer')];
+    if (!audioPlayer.src || songContainers.length === 0) return;
 
-    if (!audioPlayer.src) return;
-
-    currentNode = (currentSong - 1 + songContainers.length) % songContainers.length;
-
+    currentNode = (currentNode - 1 + songContainers.length) % songContainers.length; // Move to the previous song
     const prevSongContainer = songContainers[currentNode];
-    const audioFile = prevSongContainer.dataset.file;
 
-    if (prevSongContainer && audioPlayer) {
-        audioPlayer.src = audioFile;
+    if (prevSongContainer) {
+        audioPlayer.src = prevSongContainer.dataset.file;
         audioPlayer.currentTime = 0;
+
         playButton.style.display = "none";
         pauseButton.style.display = "inline-block";
 
@@ -135,4 +125,4 @@ function goToPreviousSong() {
 
 skipButton.addEventListener("click", skipToNextSong);
 
-prevButton.addEventListener("click", goToPreviousSong);
+prevButton.addEventListener("click", previousSong);

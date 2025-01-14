@@ -65,17 +65,17 @@ export function getMusicMetadata(file) {
                 imageSrc = "http://127.0.0.1:8080/Icons/Music%20App%20Icon.png"
             }
 
-            // Extract metadata: title, artist, and duration
             const name = removeStringLength(result.title || "");
             const artist = removeStringLength(result.artist[0] || "");
             const duration = result.duration || "";
             const filePath = result.name || "";
 
-            // hidden text to get the full name and artist
             const hiddenNameText = result.title || ""
             const hiddenArtistText = result.artist[0] || ""
 
-            // Create a new container for this song
+            // imageSrc is already checked for null value
+            const hiddenImageSrc = imageSrc
+
             const songContainer = document.createElement('div');
             songContainer.classList.add('songContainer');
             songContainer.dataset.file = URL.createObjectURL(file);
@@ -87,7 +87,6 @@ export function getMusicMetadata(file) {
             songContainer.style.aspectRatio = "3/2";
             songContainer.style.paddingTop = "10px";
 
-            // Create and style the image metadata
             const imageDiv = document.createElement('div');
             imageDiv.classList.add('imageMetadataStyles');
             if (imageSrc) {
@@ -99,9 +98,12 @@ export function getMusicMetadata(file) {
                 imageDiv.style.backgroundSize = "cover";
                 imageDiv.style.overflow = "hidden";
                 imageDiv.style.borderRadius = "8px";
+                imageDiv.style.boxShadow = "2px 2px 6px rgba(0, 0, 0, 0.5)"
+                imageDiv.innerHTML = `
+                    <p class='hiddenImageSrc'>${hiddenImageSrc}</p>
+                `
             }
 
-            // Create and style the text metadata
             const textDiv = document.createElement('div');
             textDiv.classList.add('textMetadataStyles');
             textDiv.style.fontSize = "12px";
@@ -125,6 +127,8 @@ export function getMusicMetadata(file) {
             const hiddenName = textDiv.querySelector('.hiddenNameText');
             const hiddenArtist = textDiv.querySelector('.hiddenArtistText');
 
+            const hiddenImage = imageDiv.querySelector('.hiddenImageSrc');
+
             const innerNameText = hiddenName.innerText;
             const innerArtistText = hiddenArtist.innerText;
 
@@ -138,8 +142,8 @@ export function getMusicMetadata(file) {
 
             hiddenName.style.display = "none";
             hiddenArtist.style.display = "none";
+            hiddenImage.style.display = "none";
 
-            // Resolve the promise with the metadata
             resolve({ innerNameText, innerArtistText, duration, filePath, imageSrc });
         });
     });
