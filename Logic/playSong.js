@@ -1,4 +1,4 @@
-import { randomButtonActive, appendRandomSongToDll, dll, getCurrentSongRandom } from './repeateAndRandButtons.js'
+import { randomButtonActive, dll, getCurrentSongRandom } from './repeateAndRandButtons.js'
 
 const playButton = document.getElementById("playButton");
 const pauseButton = document.getElementById("pauseButton");

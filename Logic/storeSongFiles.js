@@ -2,6 +2,10 @@ import { songsList } from './AddMusicFiles.js';
 import { getMusicMetadata } from './AddMusicFiles.js'
 import { updateVolumeSliderBackground } from './playerControls.js'
 
+/*
+   Load the volume and music last played
+*/
+
 const indexedDB =
     window.indexedDB ||
     window.mozIndexedDB ||
