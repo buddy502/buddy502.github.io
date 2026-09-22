@@ -1,115 +1,118 @@
 #borderWithSongs {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid black;
-    overflow: hidden;
-    box-sizing: border-box;
-    position: fixed;
-    top: 100px;
-    left: 340px;
-    right: 0;
-    box-shadow: -1px 7px 30px 2px rgba(45, 45, 45, 0.8);
-    max-height: calc(100vh - 260px);
-    min-height: 350px;
+   display: flex;
+   flex-wrap: wrap;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   overflow: hidden;
+   box-sizing: border-box;
+   position: fixed;
+
+   top: 100px;
+   left: 340px;
+   right: 10%;
+   box-shadow: -1px 7px 30px 2px rgba(45, 45, 45, 0.8);
+   max-height: calc(100vh - 260px);
+   min-height: 350px;
+
+   border: 2px solid black;
+   border-radius: 8px;
 }
 
 #metadataContainer {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
-    overflow: auto;
+   display: flex;
+   width: 100%;
+   height: 100%;
+   flex-direction: row;
+   flex-wrap: wrap;
+   align-items: flex-start;
+   align-content: flex-start;
+   overflow: auto;
 }
 
 .songContainer:hover {
-    background-color: rgb(184, 252, 255);
+   background-color: rgb(184, 252, 255);
 }
 
 .songContainer.highlighted {
-    background-color: rgb(0, 170, 255);
+   background-color: rgb(0, 170, 255);
 }
 
 .textMetadataStyles.highlightedText {
-    font-weight: bold;
-    color: white !important;
+   font-weight: bold;
+   color: white !important;
 }
 
 .imageMetadataStyles.highlightedImage {
-    width: 78% !important;
-    height: 57% !important;
+   width: 78% !important;
+   height: 57% !important;
 }
 
 #borderWithSongs #hiddenMusicText {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+   width: 100%;
+   padding: 10px;
+   box-sizing: border-box;
 }
 
 #borderWithSongs #hiddenMusicText > p {
-    text-align: center;
-    margin-top: 0px;
-    margin-bottom: 5px;
-    font-size: 16px;
-    word-wrap: break-word;
+   text-align: center;
+   margin-top: 0px;
+   margin-bottom: 5px;
+   font-size: 16px;
+   word-wrap: break-word;
 }
 
 #borderWithSongs #hiddenMusicText > img {
-    display: block;
-    margin: 10px auto;
-    height: auto;
-    max-width: 150px;
-    max-height: 150px;
+   display: block;
+   margin: 10px auto;
+   height: auto;
+   max-width: 150px;
+   max-height: 150px;
 }
 
 .leftSideMenu {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
+   margin-top: 50px;
+   display: flex;
+   flex-direction: column;
+   width: fit-content;
 }
 
 #ComputerText {
-    font-weight: bold;
-    font-size: 22px;
-    margin-left: 65px;
+   font-weight: bold;
+   font-size: 22px;
+   margin-left: 65px;
 }
 
 .MyMusic {
-    display: flex;
-    align-items: center;
-    min-width: 300px;
-    top: 30px;
-    text-align: left;
-    text-decoration: none;
-    color: black;
-    border: none;
-    position: relative;
-    border-color: white;
-    background-color: transparent;
+   display: flex;
+   align-items: center;
+   min-width: 300px;
+   top: 30px;
+   text-align: left;
+   text-decoration: none;
+   color: black;
+   border: none;
+   position: relative;
+   border-color: white;
+   background-color: transparent;
 }
 
 .MyMusic > p {
-    font-size: 17px;
+   font-size: 17px;
 }
 
 .MyMusic:hover {
-    background-color: rgb(210, 255, 255);
-    text-decoration: none;
-    align-items: center;
+   background-color: rgb(210, 255, 255);
+   text-decoration: none;
+   align-items: center;
 }
 
 .MyMusic > img {
-    height: 18px;
-    padding-right: 20px;
+   height: 18px;
+   padding-right: 20px;
 }

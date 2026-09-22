@@ -32,9 +32,6 @@
         <script type="module" src="./Logic/playerControls.js" defer></script>
         <script type="module" src="./Logic/songSearch.js" defer></script>
         <script type="module" src="./Logic/informationRightClick.js" defer></script>
-
-        
-        <script type="module" src="./spotifyAPI/clientSpotifyButton.js" defer></script>
     </head>
 
     <body>
@@ -58,14 +55,9 @@
 
         <div class="leftSideMenu">
             <div id="ComputerText">Library</div>
-            <button id="spotifyAuthSongs" class="MyMusic">
-                <img src="./Icons/Quarter Note.png" alt="My Music Icon">
-                <p>Add Spotify Songs</p>
-            </button>
         </div>
 
         <!-- MUSIC FILES FOR TEXT BOX AND AUDIO -->
-
         <input type="file" id="fileInputRightClick" style="display: none;"/>
         <input type="file" id="directoryRightClick" style="display: none;" webkitdirectory directory multiple/>
         <audio id="audioPlayer" style="display: none;"></audio>
@@ -111,9 +103,12 @@
             <button id="randomSongButton"></button>
         </div>
 
-        <input type="search" id="searchBar" placeholder="Search"
-        onfocus="this.placeholder=''"
-        onblur="this.placeholder='Search'">
+        <div class="search-container">
+           <!-- search title disappears when clicked --> 
+           <input type="search" id="searchBar" placeholder="Search"
+           onfocus="this.placeholder=''"
+           onblur="this.placeholder='Search'">
+        </div>
 
         <div id="songInfo" class="song-info">
             <div class="song-header">

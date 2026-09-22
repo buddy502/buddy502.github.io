@@ -1,5 +1,10 @@
-#searchBar {
-    position: fixed;
-    right: 0;  
-    top: 75px;
+.search-container {
+   position: fixed;
+   right: 10%;
+   top: 8%;
+}
+
+.search-container input {
+   border: 2px solid black;
+   border-radius: 10px;
 }
